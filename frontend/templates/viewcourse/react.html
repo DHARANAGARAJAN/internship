@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>react</title>
+<link rel="stylesheet" href="{% static 'css/course.css' %}">
+</head>
+<body>
+
+<header>
+  <h1>React js</h1>
+  <p>Learn how to build fast, interactive UIs with React,
+Create your own React components like Thumbnail,  and Video. Then combine them into entire screens, pages, and apps.</p>
+</header>
+
+<section class="course-info">
+  <h2>Course Information</h2>
+  <ul>
+    <li><strong>Price:</strong> ₹4999</li>
+    <li><strong>Duration:</strong> 12 weeks</li>
+    <li><strong>Level:</strong> Beginner → Advanced</li>
+  </ul>
+  <button id="registerBtn">Register Now</button>
+</section>
+
+<section id="courseContent" class="hidden">
+  <h2>Course Content</h2>
+  <ul>
+   <li>  Module 1: Introduction to React & JSX</li>
+   <li>Module 2: Components, Props & State</li>
+    <li>Module 3: Lifecycle Methods & Hooks</li>
+    <li>Module 4: Routing & Forms</li>
+
+<li>Module 5: Redux & State Management</li>
+  </ul>
+
+  <h2>Course Videos</h2>
+  <ol>
+    <li><a href="#" target="_blank">React &JSX</a></li>
+    <li><a href="#" target="_blank"></a>Lifecycle methods and states</li>
+    <li><a href="#" target="_blank"> forms Video</a></li>
+  </ol>
+
+  <h2>course outcome</h2>
+  <div class="progress">
+    <label>JSX: </label>
+    <progress value="50" max="100"></progress> 50%
+  </div>
+  <div class="progress">
+    <labe>Lifecycle: </label>
+    <progress value="20" max="100"></progress> 20%
+  </div>
+  <div class="progress">
+    <label>forms: </label>
+    <progress value="0" max="100"></progress> 0%
+  </div>
+</section>
+
+<script>
+document.getElementById('registerBtn').addEventListener('click', function() {
+  document.getElementById('courseContent').classList.remove('hidden');
+  this.style.display = 'none';
+});
+</script>
+
+</body>
+</html>

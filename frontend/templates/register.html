@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - D Square</title>
+    <link rel="stylesheet" href="{% static 'css/reg.css' %}">
+</head>
+<body>
+
+    <!-- ✅ Full-width Navbar -->
+    <nav class="navbar">
+        <div class="logo">D square</div>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'quizpro' %}">Project/Quiz</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- ✅ Form Section Below Navbar -->
+    <div class="register-container">
+        <div class="form-box">
+            <h2>Create your account</h2>
+            <p>Register to access your course</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" name="username" required>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" required>
+
+                <label for="course">Select Course</label>
+                <select name="course" required>
+                    <option value="">--Choose--</option>
+                    <option value="Full Stack">Full Stack</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Java">Java</option>
+                    <option value="C">C</option>
+                    <option value="Excel">Excel</option>
+                </select>
+
+                <button type="submit">Register</button>
+            </form>
+
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
+
+</body>
+</html>
+

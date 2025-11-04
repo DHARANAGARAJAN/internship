@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Stack Web Development</title>
+<link rel="stylesheet" href="{% static 'css/course.css' %}">
+</head>
+<body>
+
+<header>
+  <h1>Full Stack Web Development</h1>
+  <p>Master frontend & backend development with real-world projects!</p>
+</header>
+
+<section class="course-info">
+  <h2>Course Information</h2>
+  <ul>
+    <li><strong>Price:</strong> ₹4999</li>
+    <li><strong>Duration:</strong> 12 weeks</li>
+    <li><strong>Level:</strong> Beginner → Advanced</li>
+  </ul>
+  <button  id="registerBtn">
+     <a href="{% url 'register' %}"><strong>sign up here</strong></a>
+    Register Now</button>
+</section>
+
+<section id="courseContent" class="hidden">
+  <h2>Course Content</h2>
+  <ul>
+    <li>Module 1: HTML Basics</li>
+    <li>Module 2: CSS Styling</li>
+    <li>Module 3: JavaScript Fundamentals</li>
+    <li>Module 4: Backend with Node.js</li>
+    <li>Module 5: Database & Deployment</li>
+  </ul>
+
+  <h2>Course Content</h2>
+  <ol>
+    <li><a href="#" target="_blank">HTML Video</a></li>
+    <li><a href="#" target="_blank">CSS Video</a></li>
+    <li><a href="#" target="_blank">JavaScript Video</a></li>
+  </ol>
+</section>
+  <script>
+document.getElementById('registerBtn').addEventListener('click', function() {
+  document.getElementById('courseContent').classList.remove('hidden');
+  this.style.display = 'none';
+});
+</script>
+
+</body>
+</html>

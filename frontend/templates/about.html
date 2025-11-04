@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - D Square Learning</title>
+    <link rel="stylesheet" href="{% static 'css/about.css'  %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">D Square Learning</div>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'browserpage' %}">Courses</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="about-section">
+        <div class="container">
+            <h1>About Us</h1>
+            <p>D Square Learning is your trusted partner in online education. We are dedicated to providing high-quality, affordable, and accessible learning experiences for everyone — whether you're a beginner or looking to advance your skills.</p>
+
+            <h2>Our Mission</h2>
+            <p>We aim to empower learners by offering engaging courses taught by industry experts. Our platform helps bridge the gap between education and career readiness in today's fast-paced digital world.</p>
+
+            <h2>What We Offer</h2>
+            <ul>
+                <li>✔ Expert-led video courses in Full Stack Development, Python, Java, and more</li>
+                <li>✔ Self-paced learning with interactive content</li>
+                <li>✔ Personalized dashboards and course progress tracking</li>
+                <li>✔ Certification upon course completion</li>
+            </ul>
+
+            <h2>Why Choose Us?</h2>
+            <p>With a strong community of learners and mentors, D Square Learning ensures a supportive environment to help you grow your skills and confidence. Join thousands of students who are building their future with us.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 D Square Learning. All rights reserved.</p>
+    </footer>
+</body>
+</html>

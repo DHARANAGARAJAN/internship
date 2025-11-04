@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D Square - Professional Java Programming Course</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .lesson-locked {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quiz-option {
+            transition: all 0.3s ease;
+        }
+        .quiz-option:hover {
+            background-color: #fef3c7;
+        }
+        .quiz-option.selected {
+            background-color: #f59e0b;
+            color: white;
+        }
+        .quiz-option.correct {
+            background-color: #10b981;
+            color: white;
+        }
+        .quiz-option.incorrect {
+            background-color: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-orange-900 via-amber-900 to-yellow-900 min-h-screen">
+
+    <!-- Welcome Page -->
+    <div id="welcomePage" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-4xl fade-in">
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">☕</div>
+                <h1 class="text-5xl font-bold text-gray-800 mb-4">D Square Academy</h1>
+                <p class="text-2xl text-orange-600 mb-4">Professional Java Programming Course</p>
+                <p class="text-lg text-gray-600 mb-6">Master Java Programming from Zero to Hero - Industry Standard Curriculum</p>
+                
+                <div class="bg-gradient-to-r from-orange-100 to-amber-100 p-6 rounded-xl mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">☕ What You'll Learn</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-left">
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>Java Fundamentals & OOP</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>Classes, Objects & Inheritance</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>Exception Handling</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>Collections Framework</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>File I/O & Multithreading</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>GUI Development with Swing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-orange-50 p-6 rounded-xl">
+                        <div class="text-3xl mb-3">📚</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">12 Modules</h3>
+                        <p class="text-sm text-gray-600">Comprehensive curriculum</p>
+                    </div>
+                    <div class="bg-amber-50 p-6 rounded-xl">
+                        <div class="text-3xl mb-3">🏆</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Certificate</h3>
+                        <p class="text-sm text-gray-600">Industry recognized</p>
+                    </div>
+                    <div class="bg-orange-100 p-6 rounded-xl">
+                        <div class="text-3xl mb-3">💻</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Hands-on</h3>
+                        <p class="text-sm text-gray-600">Real Java projects</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button id="startCourseBtn" class="bg-gradient-to-r from-orange-600 to-amber-600 text-white py-4 px-12 rounded-lg font-semibold text-xl hover:from-orange-700 hover:to-amber-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                    Start Learning Java Now
+                </button>
+                <p class="text-sm text-gray-500 mt-4">Free • Self-paced • Certificate included</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Dashboard -->
+    <div id="courseDashboard" class="min-h-screen p-4 hidden">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-800">Java Programming Mastery</h1>
+                        <p class="text-orange-600">Professional Course by D Square Academy</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="bg-orange-100 px-4 py-2 rounded-lg">
+                            <p class="text-sm text-orange-800 font-semibold">Progress: <span id="overallProgress">0</span>%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Overall Progress Bar -->
+                <div class="mb-4">
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="overallProgressBar" class="bg-gradient-to-r from-orange-500 to-amber-500 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <div class="flex space-x-4 border-b">
+                    <button onclick="showTab('modules')" id="modulesTab" class="px-4 py-2 font-semibold text-orange-600 border-b-2 border-orange-600">Modules</button>
+                    <button onclick="showTab('assignments')" id="assignmentsTab" class="px-4 py-2 font-semibold text-gray-600 hover:text-orange-600">Assignments</button>
+                    <button onclick="showTab('resources')" id="resourcesTab" class="px-4 py-2 font-semibold text-gray-600 hover:text-orange-600">Resources</button>
+                    <button onclick="showTab('certificate')" id="certificateTab" class="px-4 py-2 font-semibold text-gray-600 hover:text-orange-600">Certificate</button>
+                </div>
+            </div>
+
+            <!-- Modules Tab -->
+            <div id="modulesContent" class="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Module cards will be generated here -->
+            </div>
+
+            <!-- Assignments Tab -->
+            <div id="assignmentsContent" class="hidden">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Java Programming Assignments</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">Assignment 1: Hello World Application</h3>
+                            <p class="text-gray-600 mb-4">Create your first Java application that prints "Hello, World!" to the console.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-green-600">✓ Completed</span>
+                                <button class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">View</button>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-4 opacity-50">
+                            <h3 class="font-semibold text-lg mb-2">Assignment 2: Student Management System</h3>
+                            <p class="text-gray-600 mb-4">Build a simple student management system using classes and objects.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">🔒 Locked</span>
+                                <button disabled class="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed">Locked</button>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-4 opacity-50">
+                            <h3 class="font-semibold text-lg mb-2">Assignment 3: Banking Application</h3>
+                            <p class="text-gray-600 mb-4">Create a banking system with inheritance and polymorphism.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">🔒 Locked</span>
+                                <button disabled class="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed">Locked</button>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-4 opacity-50">
+                            <h3 class="font-semibold text-lg mb-2">Final Project: Library Management System</h3>
+                            <p class="text-gray-600 mb-4">Complete Java application with GUI, file handling, and collections.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">🔒 Locked</span>
+                                <button disabled class="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed">Locked</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources Tab -->
+            <div id="resourcesContent" class="hidden">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Java Course Resources</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">📖 Java Course Syllabus</h3>
+                            <p class="text-gray-600 mb-4">Complete course outline and learning objectives</p>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">Download PDF</button>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">☕ Java Code Examples</h3>
+                            <p class="text-gray-600 mb-4">All Java code examples from the course</p>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">Download ZIP</button>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">📚 Java API Reference</h3>
+                            <p class="text-gray-600 mb-4">Java programming reference and cheat sheet</p>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">Download PDF</button>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">🛠️ Development Setup Guide</h3>
+                            <p class="text-gray-600 mb-4">Step-by-step guide to set up Java development environment</p>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">Download PDF</button>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">🎥 Video Transcripts</h3>
+                            <p class="text-gray-600 mb-4">Text versions of all video content</p>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">Download PDF</button>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">🔗 Useful Java Links</h3>
+                            <p class="text-gray-600 mb-4">Curated list of Java resources and documentation</p>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">View Online</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certificate Tab -->
+            <div id="certificateContent" class="hidden">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Java Programming Certificate</h2>
+                    <div id="certificateEarned" class="hidden">
+                        <div class="border-4 border-orange-600 rounded-lg p-8 mb-6 bg-gradient-to-br from-orange-50 to-amber-50">
+                            <div class="text-6xl mb-4">☕</div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-4">🏆 Certificate of Completion</h3>
+                            <p class="text-xl text-gray-700 mb-2">This certifies that</p>
+                            <p class="text-2xl font-bold text-orange-600 mb-2">Student Name</p>
+                            <p class="text-lg text-gray-700 mb-4">has successfully completed the</p>
+                            <p class="text-xl font-bold text-gray-800 mb-4">Java Programming Mastery Course</p>
+                            <p class="text-gray-600">D Square Academy</p>
+                        </div>
+                        <button class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700">Download Certificate</button>
+                    </div>
+                    <div id="certificateNotEarned">
+                        <div class="text-gray-500 mb-6">
+                            <div class="text-6xl mb-4">🏆</div>
+                            <h3 class="text-xl font-semibold mb-2">Certificate Not Yet Earned</h3>
+                            <p>Complete all modules and assignments to earn your Java programming certificate</p>
+                        </div>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600">Progress: <span id="certificateProgress">0</span>% Complete</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson Content -->
+    <div id="lessonContent" class="min-h-screen p-4 hidden">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <button onclick="backToDashboard()" class="text-orange-600 hover:text-orange-700 flex items-center">
+                        ← Back to Course
+                    </button>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-600">Module <span id="currentModuleNum">1</span> of 12</p>
+                    </div>
+                </div>
+                
+                <h1 id="lessonTitle" class="text-3xl font-bold text-gray-800 mb-6"></h1>
+                
+                <!-- Video Section -->
+                <div class="bg-gray-900 rounded-lg p-8 mb-6 text-center">
+                    <div class="text-white mb-4">
+                        <div class="text-6xl mb-4">🎥</div>
+                        <h3 class="text-xl font-semibold mb-2">Video Lesson</h3>
+                        <p class="text-gray-300">Duration: 20-25 minutes</p>
+                    </div>
+                    <button class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700">
+                        ▶ Play Video
+                    </button>
+                </div>
+                
+                <!-- Lesson Content -->
+                <div id="lessonBody" class="prose max-w-none mb-8">
+                    <!-- Content will be loaded here -->
+                </div>
+                
+                <!-- Quiz Section -->
+                <div id="quizSection" class="bg-gray-50 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">📝 Knowledge Check</h3>
+                    <div id="quizContent">
+                        <!-- Quiz will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <div class="flex justify-between items-center">
+                    <button id="prevLessonBtn" onclick="prevLesson()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                        ← Previous
+                    </button>
+                    <button id="completeLessonBtn" onclick="completeLesson()" class="bg-gradient-to-r from-orange-600 to-amber-600 text-white px-8 py-3 rounded-lg hover:from-orange-700 hover:to-amber-700 transition-all">
+                        Complete Module
+                    </button>
+                    <button id="nextLessonBtn" onclick="nextLesson()" class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors">
+                        Next →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentLesson = 0;
+        let completedLessons = new Set();
+        let currentTab = 'modules';
+        let quizAnswers = {};
+        let quizCompleted = false;
+
+        // Java Course Data
+        const modules = [
+            {
+                title: "Introduction to Java Programming",
+                description: "Learn Java fundamentals, JVM architecture, and write your first Java program",
+                duration: "50 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Welcome to Java Programming! ☕</h3>
+                    <p class="mb-4">Java is a powerful, object-oriented programming language developed by Sun Microsystems (now Oracle) in 1995. It's designed to be platform-independent, secure, and robust.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Understand Java's history and philosophy</li>
+                        <li>Learn about JVM, JRE, and JDK</li>
+                        <li>Set up Java development environment</li>
+                        <li>Write and compile your first Java program</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Why Learn Java?</h4>
+                    <div class="bg-orange-50 p-4 rounded-lg mb-4">
+                        <ul class="list-disc pl-6">
+                            <li><strong>Platform Independent:</strong> "Write Once, Run Anywhere" (WORA)</li>
+                            <li><strong>Object-Oriented:</strong> Promotes code reusability and modularity</li>
+                            <li><strong>Enterprise Ready:</strong> Used in large-scale applications</li>
+                            <li><strong>Strong Community:</strong> Extensive libraries and frameworks</li>
+                            <li><strong>Career Opportunities:</strong> High demand in the job market</li>
+                        </ul>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Java Architecture</h4>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <ul class="list-disc pl-6">
+                            <li><strong>JDK (Java Development Kit):</strong> Complete development environment</li>
+                            <li><strong>JRE (Java Runtime Environment):</strong> Runtime environment for Java applications</li>
+                            <li><strong>JVM (Java Virtual Machine):</strong> Executes Java bytecode</li>
+                        </ul>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Your First Java Program</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+        System.out.println("Welcome to Java Programming!");
+    }
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Program Breakdown:</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li><code>public class HelloWorld</code> - Class declaration (must match filename)</li>
+                        <li><code>public static void main(String[] args)</code> - Main method (entry point)</li>
+                        <li><code>System.out.println()</code> - Prints text to console</li>
+                        <li><code>{}</code> - Curly braces define code blocks</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Compilation and Execution</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Compile the program
+javac HelloWorld.java
+
+// Run the program
+java HelloWorld</code></pre>
+                `,
+                quiz: {
+                    question: "What does JVM stand for in Java?",
+                    options: [
+                        "Java Virtual Machine",
+                        "Java Variable Method",
+                        "Java Version Manager",
+                        "Java Visual Model"
+                    ],
+                    correct: 0
+                }
+            },
+            {
+                title: "Variables and Data Types",
+                description: "Master Java data types, variables, and type conversion",
+                duration: "45 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Variables and Data Types in Java</h3>
+                    <p class="mb-4">Variables are containers for storing data values. Java is a strongly-typed language, meaning every variable must be declared with a specific data type.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Understand primitive and reference data types</li>
+                        <li>Learn variable declaration and initialization</li>
+                        <li>Master type conversion and casting</li>
+                        <li>Understand variable scope and lifetime</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Primitive Data Types</h4>
+                    <div class="bg-yellow-50 p-4 rounded-lg mb-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">Integer Types:</h5>
+                                <ul class="list-disc pl-6 text-sm">
+                                    <li><strong>byte:</strong> 8-bit (-128 to 127)</li>
+                                    <li><strong>short:</strong> 16-bit (-32,768 to 32,767)</li>
+                                    <li><strong>int:</strong> 32-bit (-2^31 to 2^31-1)</li>
+                                    <li><strong>long:</strong> 64-bit (-2^63 to 2^63-1)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">Other Types:</h5>
+                                <ul class="list-disc pl-6 text-sm">
+                                    <li><strong>float:</strong> 32-bit floating point</li>
+                                    <li><strong>double:</strong> 64-bit floating point</li>
+                                    <li><strong>char:</strong> 16-bit Unicode character</li>
+                                    <li><strong>boolean:</strong> true or false</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Variable Declaration Examples</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Integer variables
+int age = 25;
+long population = 7800000000L;  // L suffix for long
+short year = 2024;
+byte grade = 85;
+
+// Floating-point variables
+double salary = 75000.50;
+float height = 5.9f;  // f suffix for float
+
+// Character and boolean
+char initial = 'J';
+boolean isStudent = true;
+
+// String (reference type)
+String name = "John Doe";
+
+// Multiple declarations
+int x = 10, y = 20, z = 30;</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Type Conversion</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Implicit conversion (widening)
+int num = 100;
+double decimal = num;  // int to double
+
+// Explicit conversion (narrowing)
+double pi = 3.14159;
+int intPi = (int) pi;  // double to int (loses decimal part)
+
+// String conversion
+int age = 25;
+String ageString = String.valueOf(age);
+String ageString2 = Integer.toString(age);</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Variable Scope</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class VariableScope {
+    static int classVariable = 100;  // Class variable
+    
+    public static void main(String[] args) {
+        int localVariable = 50;  // Local variable
+        
+        if (true) {
+            int blockVariable = 25;  // Block variable
+            System.out.println(blockVariable);
+        }
+        // blockVariable not accessible here
+    }
+}</code></pre>
+                `,
+                quiz: {
+                    question: "Which of the following is the correct way to declare a long variable in Java?",
+                    options: [
+                        "long num = 1000000000;",
+                        "long num = 1000000000L;",
+                        "Long num = 1000000000;",
+                        "long num = 1000000000.0;"
+                    ],
+                    correct: 1
+                }
+            },
+            {
+                title: "Operators and Expressions",
+                description: "Learn arithmetic, logical, and comparison operators in Java",
+                duration: "40 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Operators and Expressions</h3>
+                    <p class="mb-4">Operators are special symbols that perform operations on variables and values. Java provides a rich set of operators for different types of operations.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Master arithmetic and assignment operators</li>
+                        <li>Understand comparison and logical operators</li>
+                        <li>Learn increment/decrement operators</li>
+                        <li>Understand operator precedence</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Arithmetic Operators</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>int a = 10, b = 3;
+
+System.out.println(a + b);  // Addition: 13
+System.out.println(a - b);  // Subtraction: 7
+System.out.println(a * b);  // Multiplication: 30
+System.out.println(a / b);  // Division: 3 (integer division)
+System.out.println(a % b);  // Modulus: 1 (remainder)
+
+// Floating-point division
+double result = (double) a / b;  // 3.333...</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Assignment Operators</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>int x = 10;
+
+x += 5;   // x = x + 5;  (15)
+x -= 3;   // x = x - 3;  (12)
+x *= 2;   // x = x * 2;  (24)
+x /= 4;   // x = x / 4;  (6)
+x %= 5;   // x = x % 5;  (1)</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Comparison Operators</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>int a = 10, b = 20;
+
+System.out.println(a == b);  // Equal to: false
+System.out.println(a != b);  // Not equal to: true
+System.out.println(a > b);   // Greater than: false
+System.out.println(a < b);   // Less than: true
+System.out.println(a >= b);  // Greater than or equal: false
+System.out.println(a <= b);  // Less than or equal: true</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Logical Operators</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>boolean x = true, y = false;
+
+System.out.println(x && y);  // Logical AND: false
+System.out.println(x || y);  // Logical OR: true
+System.out.println(!x);      // Logical NOT: false
+
+// Short-circuit evaluation
+boolean result = (5 > 3) && (10 / 0 > 1);  // Second part not evaluated</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Increment/Decrement Operators</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>int count = 5;
+
+// Pre-increment/decrement
+System.out.println(++count);  // 6 (increment first, then use)
+System.out.println(--count);  // 5 (decrement first, then use)
+
+// Post-increment/decrement
+System.out.println(count++);  // 5 (use first, then increment)
+System.out.println(count--);  // 6 (use first, then decrement)</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Operator Precedence</h4>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="mb-2">From highest to lowest precedence:</p>
+                        <ol class="list-decimal pl-6">
+                            <li>Parentheses: <code>()</code></li>
+                            <li>Unary: <code>++, --, !, -</code></li>
+                            <li>Multiplicative: <code>*, /, %</code></li>
+                            <li>Additive: <code>+, -</code></li>
+                            <li>Relational: <code>&lt;, &gt;, &lt;=, &gt;=</code></li>
+                            <li>Equality: <code>==, !=</code></li>
+                            <li>Logical AND: <code>&&</code></li>
+                            <li>Logical OR: <code>||</code></li>
+                            <li>Assignment: <code>=, +=, -=, etc.</code></li>
+                        </ol>
+                    </div>
+                `,
+                quiz: {
+                    question: "What will be the value of x after executing: int x = 5; x = ++x + x++;",
+                    options: [
+                        "11",
+                        "12", 
+                        "13",
+                        "10"
+                    ],
+                    correct: 1
+                }
+            },
+            {
+                title: "Control Flow Statements",
+                description: "Master if-else statements, switch cases, and conditional logic",
+                duration: "55 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Control Flow Statements</h3>
+                    <p class="mb-4">Control flow statements allow your program to make decisions and execute different code paths based on conditions.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Master if-else conditional statements</li>
+                        <li>Learn switch-case statements</li>
+                        <li>Understand nested conditions</li>
+                        <li>Practice with real-world examples</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">If-Else Statements</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Simple if statement
+int age = 18;
+if (age >= 18) {
+    System.out.println("You are eligible to vote!");
+}
+
+// If-else statement
+int score = 85;
+if (score >= 90) {
+    System.out.println("Grade: A");
+} else if (score >= 80) {
+    System.out.println("Grade: B");
+} else if (score >= 70) {
+    System.out.println("Grade: C");
+} else if (score >= 60) {
+    System.out.println("Grade: D");
+} else {
+    System.out.println("Grade: F");
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Ternary Operator</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Ternary operator (condition ? value1 : value2)
+int age = 20;
+String status = (age >= 18) ? "Adult" : "Minor";
+System.out.println("Status: " + status);
+
+// Nested ternary
+int marks = 85;
+String grade = (marks >= 90) ? "A" : 
+               (marks >= 80) ? "B" : 
+               (marks >= 70) ? "C" : "F";</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Switch Statement</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>int dayOfWeek = 3;
+String dayName;
+
+switch (dayOfWeek) {
+    case 1:
+        dayName = "Monday";
+        break;
+    case 2:
+        dayName = "Tuesday";
+        break;
+    case 3:
+        dayName = "Wednesday";
+        break;
+    case 4:
+        dayName = "Thursday";
+        break;
+    case 5:
+        dayName = "Friday";
+        break;
+    case 6:
+    case 7:
+        dayName = "Weekend";
+        break;
+    default:
+        dayName = "Invalid day";
+}
+
+System.out.println("Day: " + dayName);</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Enhanced Switch (Java 12+)</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>int dayOfWeek = 3;
+String dayName = switch (dayOfWeek) {
+    case 1 -> "Monday";
+    case 2 -> "Tuesday";
+    case 3 -> "Wednesday";
+    case 4 -> "Thursday";
+    case 5 -> "Friday";
+    case 6, 7 -> "Weekend";
+    default -> "Invalid day";
+};
+
+System.out.println("Day: " + dayName);</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Nested Conditions</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>int age = 25;
+boolean hasLicense = true;
+boolean hasInsurance = true;
+
+if (age >= 18) {
+    if (hasLicense) {
+        if (hasInsurance) {
+            System.out.println("You can drive!");
+        } else {
+            System.out.println("You need insurance to drive.");
+        }
+    } else {
+        System.out.println("You need a license to drive.");
+    }
+} else {
+    System.out.println("You must be 18 or older to drive.");
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Practical Example: Grade Calculator</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class GradeCalculator {
+    public static void main(String[] args) {
+        int marks = 87;
+        char grade;
+        String description;
+        
+        if (marks >= 90) {
+            grade = 'A';
+            description = "Excellent";
+        } else if (marks >= 80) {
+            grade = 'B';
+            description = "Good";
+        } else if (marks >= 70) {
+            grade = 'C';
+            description = "Average";
+        } else if (marks >= 60) {
+            grade = 'D';
+            description = "Below Average";
+        } else {
+            grade = 'F';
+            description = "Fail";
+        }
+        
+        System.out.println("Marks: " + marks);
+        System.out.println("Grade: " + grade);
+        System.out.println("Description: " + description);
+    }
+}</code></pre>
+                `,
+                quiz: {
+                    question: "What happens if you forget to include 'break' statements in a switch case?",
+                    options: [
+                        "Compilation error occurs",
+                        "The program crashes",
+                        "Fall-through occurs - subsequent cases execute",
+                        "Only the default case executes"
+                    ],
+                    correct: 2
+                }
+            },
+            {
+                title: "Loops and Iteration",
+                description: "Master for loops, while loops, and enhanced for loops",
+                duration: "50 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Loops and Iteration</h3>
+                    <p class="mb-4">Loops allow you to execute a block of code repeatedly. Java provides several types of loops for different scenarios.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Master for, while, and do-while loops</li>
+                        <li>Learn enhanced for loops (for-each)</li>
+                        <li>Understand loop control statements</li>
+                        <li>Practice with nested loops</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">For Loop</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Basic for loop
+for (int i = 1; i <= 5; i++) {
+    System.out.println("Count: " + i);
+}
+
+// Multiple variables
+for (int i = 0, j = 10; i < 5; i++, j--) {
+    System.out.println("i: " + i + ", j: " + j);
+}
+
+// Infinite loop (be careful!)
+// for (;;) {
+//     System.out.println("This runs forever!");
+// }</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">While Loop</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Basic while loop
+int count = 1;
+while (count <= 5) {
+    System.out.println("Count: " + count);
+    count++;
+}
+
+// Input validation example
+Scanner scanner = new Scanner(System.in);
+int number;
+while (true) {
+    System.out.print("Enter a positive number: ");
+    number = scanner.nextInt();
+    if (number > 0) {
+        break;  // Exit the loop
+    }
+    System.out.println("Please enter a positive number!");
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Do-While Loop</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Do-while loop (executes at least once)
+int num = 1;
+do {
+    System.out.println("Number: " + num);
+    num++;
+} while (num <= 5);
+
+// Menu-driven program example
+Scanner scanner = new Scanner(System.in);
+int choice;
+do {
+    System.out.println("1. Add");
+    System.out.println("2. Subtract");
+    System.out.println("3. Exit");
+    System.out.print("Enter your choice: ");
+    choice = scanner.nextInt();
+    
+    switch (choice) {
+        case 1:
+            System.out.println("Addition selected");
+            break;
+        case 2:
+            System.out.println("Subtraction selected");
+            break;
+        case 3:
+            System.out.println("Goodbye!");
+            break;
+        default:
+            System.out.println("Invalid choice!");
+    }
+} while (choice != 3);</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Enhanced For Loop (For-Each)</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Array iteration
+int[] numbers = {1, 2, 3, 4, 5};
+for (int num : numbers) {
+    System.out.println("Number: " + num);
+}
+
+// String array
+String[] names = {"Alice", "Bob", "Charlie"};
+for (String name : names) {
+    System.out.println("Hello, " + name);
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Loop Control Statements</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Break statement
+for (int i = 1; i <= 10; i++) {
+    if (i == 6) {
+        break;  // Exit the loop when i equals 6
+    }
+    System.out.println(i);
+}
+
+// Continue statement
+for (int i = 1; i <= 10; i++) {
+    if (i % 2 == 0) {
+        continue;  // Skip even numbers
+    }
+    System.out.println(i);  // Only odd numbers printed
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Nested Loops</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Multiplication table
+for (int i = 1; i <= 5; i++) {
+    for (int j = 1; j <= 5; j++) {
+        System.out.print((i * j) + "\\t");
+    }
+    System.out.println();  // New line after each row
+}
+
+// Pattern printing
+for (int i = 1; i <= 5; i++) {
+    for (int j = 1; j <= i; j++) {
+        System.out.print("* ");
+    }
+    System.out.println();
+}
+// Output:
+// * 
+// * * 
+// * * * 
+// * * * * 
+// * * * * *</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Practical Example: Prime Number Checker</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class PrimeChecker {
+    public static void main(String[] args) {
+        int number = 29;
+        boolean isPrime = true;
+        
+        if (number <= 1) {
+            isPrime = false;
+        } else {
+            for (int i = 2; i <= Math.sqrt(number); i++) {
+                if (number % i == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+        }
+        
+        if (isPrime) {
+            System.out.println(number + " is a prime number");
+        } else {
+            System.out.println(number + " is not a prime number");
+        }
+    }
+}</code></pre>
+                `,
+                quiz: {
+                    question: "Which loop is guaranteed to execute at least once?",
+                    options: [
+                        "for loop",
+                        "while loop",
+                        "do-while loop",
+                        "enhanced for loop"
+                    ],
+                    correct: 2
+                }
+            },
+            {
+                title: "Methods and Functions",
+                description: "Learn to create reusable code with methods, parameters, and return values",
+                duration: "60 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Methods and Functions</h3>
+                    <p class="mb-4">Methods are blocks of code that perform specific tasks and can be reused throughout your program. They help organize code and promote reusability.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Understand method declaration and definition</li>
+                        <li>Learn about parameters and return values</li>
+                        <li>Master method overloading</li>
+                        <li>Understand variable scope in methods</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Method Syntax</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Method syntax
+access_modifier return_type method_name(parameters) {
+    // method body
+    return value; // if return_type is not void
+}
+
+// Example methods
+public static int add(int a, int b) {
+    return a + b;
+}
+
+public static void greet(String name) {
+    System.out.println("Hello, " + name + "!");
+}
+
+public static double calculateArea(double radius) {
+    return Math.PI * radius * radius;
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Method Examples</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class MethodExamples {
+    // Method with no parameters and no return value
+    public static void displayWelcome() {
+        System.out.println("Welcome to Java Programming!");
+    }
+    
+    // Method with parameters and return value
+    public static int multiply(int x, int y) {
+        int result = x * y;
+        return result;
+    }
+    
+    // Method with multiple parameters
+    public static double calculateGrade(int total, int obtained) {
+        return (double) obtained / total * 100;
+    }
+    
+    public static void main(String[] args) {
+        displayWelcome();
+        
+        int product = multiply(5, 3);
+        System.out.println("Product: " + product);
+        
+        double percentage = calculateGrade(500, 425);
+        System.out.println("Percentage: " + percentage + "%");
+    }
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Method Overloading</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class Calculator {
+    // Method overloading - same name, different parameters
+    
+    public static int add(int a, int b) {
+        return a + b;
+    }
+    
+    public static double add(double a, double b) {
+        return a + b;
+    }
+    
+    public static int add(int a, int b, int c) {
+        return a + b + c;
+    }
+    
+    public static String add(String a, String b) {
+        return a + b;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(add(5, 3));           // int version
+        System.out.println(add(5.5, 3.2));      // double version
+        System.out.println(add(1, 2, 3));       // three parameter version
+        System.out.println(add("Hello", "World")); // String version
+    }
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Variable Arguments (Varargs)</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class VarargsExample {
+    // Method with variable arguments
+    public static int sum(int... numbers) {
+        int total = 0;
+        for (int num : numbers) {
+            total += num;
+        }
+        return total;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(sum(1, 2, 3));           // 6
+        System.out.println(sum(1, 2, 3, 4, 5));    // 15
+        System.out.println(sum(10, 20));           // 30
+        System.out.println(sum());                 // 0
+    }
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Recursive Methods</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class RecursionExample {
+    // Factorial using recursion
+    public static long factorial(int n) {
+        if (n <= 1) {
+            return 1;  // Base case
+        }
+        return n * factorial(n - 1);  // Recursive call
+    }
+    
+    // Fibonacci using recursion
+    public static int fibonacci(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("5! = " + factorial(5));  // 120
+        
+        System.out.print("Fibonacci series: ");
+        for (int i = 0; i < 10; i++) {
+            System.out.print(fibonacci(i) + " ");
+        }
+    }
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Method Best Practices</h4>
+                    <div class="bg-green-50 p-4 rounded-lg mb-4">
+                        <ul class="list-disc pl-6">
+                            <li><strong>Single Responsibility:</strong> Each method should do one thing well</li>
+                            <li><strong>Meaningful Names:</strong> Use descriptive method names</li>
+                            <li><strong>Keep it Short:</strong> Methods should be concise and focused</li>
+                            <li><strong>Avoid Side Effects:</strong> Methods should not modify global state unexpectedly</li>
+                            <li><strong>Document Complex Logic:</strong> Add comments for complex algorithms</li>
+                        </ul>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Practical Example: Temperature Converter</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>public class TemperatureConverter {
+    public static double celsiusToFahrenheit(double celsius) {
+        return (celsius * 9.0 / 5.0) + 32;
+    }
+    
+    public static double fahrenheitToCelsius(double fahrenheit) {
+        return (fahrenheit - 32) * 5.0 / 9.0;
+    }
+    
+    public static double celsiusToKelvin(double celsius) {
+        return celsius + 273.15;
+    }
+    
+    public static void displayTemperature(double temp, String unit) {
+        System.out.printf("Temperature: %.2f %s%n", temp, unit);
+    }
+    
+    public static void main(String[] args) {
+        double celsius = 25.0;
+        
+        displayTemperature(celsius, "°C");
+        displayTemperature(celsiusToFahrenheit(celsius), "°F");
+        displayTemperature(celsiusToKelvin(celsius), "K");
+    }
+}</code></pre>
+                `,
+                quiz: {
+                    question: "What is method overloading in Java?",
+                    options: [
+                        "Having multiple methods with the same name but different parameters",
+                        "Having multiple methods with the same parameters but different names",
+                        "Having methods that call themselves recursively",
+                        "Having methods that return multiple values"
+                    ],
+                    correct: 0
+                }
+            }
+        ];
+
+        // Event Listeners
+        document.getElementById('startCourseBtn').addEventListener('click', showCourseDashboard);
+
+        function showCourseDashboard() {
+            document.getElementById('welcomePage').classList.add('hidden');
+            document.getElementById('courseDashboard').classList.remove('hidden');
+            generateModuleCards();
+            updateProgress();
+        }
+
+        function generateModuleCards() {
+            const container = document.getElementById('modulesContent');
+            container.innerHTML = '';
+            
+            modules.forEach((module, index) => {
+                const isLocked = index > 0 && !completedLessons.has(index - 1);
+                const isCompleted = completedLessons.has(index);
+                
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-200 ${isLocked ? 'lesson-locked' : 'cursor-pointer'}`;
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full ${isCompleted ? 'bg-green-500' : isLocked ? 'bg-gray-400' : 'bg-orange-500'} flex items-center justify-center text-white font-bold text-lg mr-4">
+                                ${isCompleted ? '✓' : isLocked ? '🔒' : index + 1}
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Module ${index + 1}</h3>
+                                <p class="text-sm text-gray-600">${module.duration}</p>
+                            </div>
+                        </div>
+                        <div class="text-2xl">
+                            ${isCompleted ? '🏆' : isLocked ? '🔒' : '☕'}
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-medium text-gray-800 mb-2">${module.title}</h4>
+                    <p class="text-gray-600 mb-4">${module.description}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm px-3 py-1 rounded-full ${isCompleted ? 'bg-green-100 text-green-800' : isLocked ? 'bg-gray-100 text-gray-600' : 'bg-orange-100 text-orange-800'}">
+                            ${isCompleted ? 'Completed' : isLocked ? 'Locked' : 'Available'}
+                        </span>
+                        ${!isLocked ? `<button onclick="openLesson(${index})" class="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                            ${isCompleted ? 'Review' : 'Start'}
+                        </button>` : ''}
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        function openLesson(index) {
+            currentLesson = index;
+            const module = modules[index];
+            
+            document.getElementById('courseDashboard').classList.add('hidden');
+            document.getElementById('lessonContent').classList.remove('hidden');
+            
+            document.getElementById('currentModuleNum').textContent = index + 1;
+            document.getElementById('lessonTitle').textContent = module.title;
+            document.getElementById('lessonBody').innerHTML = module.content;
+            
+            // Load quiz
+            loadQuiz(module.quiz);
+            
+            // Update navigation buttons
+            document.getElementById('prevLessonBtn').style.display = index > 0 ? 'block' : 'none';
+            document.getElementById('nextLessonBtn').style.display = index < modules.length - 1 && completedLessons.has(index) ? 'block' : 'none';
+            document.getElementById('completeLessonBtn').style.display = completedLessons.has(index) ? 'none' : 'block';
+        }
+
+        function loadQuiz(quiz) {
+            const quizContent = document.getElementById('quizContent');
+            quizContent.innerHTML = `
+                <p class="font-semibold mb-4">${quiz.question}</p>
+                <div class="space-y-2">
+                    ${quiz.options.map((option, index) => `
+                        <div class="quiz-option border rounded-lg p-3 cursor-pointer" onclick="selectQuizOption(${index})">
+                            <span class="font-medium">${String.fromCharCode(65 + index)}.</span> ${option}
+                        </div>
+                    `).join('')}
+                </div>
+                <button id="submitQuizBtn" onclick="submitQuiz()" class="mt-4 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 disabled:bg-gray-400" disabled>
+                    Submit Answer
+                </button>
+                <div id="quizResult" class="mt-4 hidden"></div>
+            `;
+            quizAnswers[currentLesson] = null;
+            quizCompleted = false;
+        }
+
+        function selectQuizOption(optionIndex) {
+            // Remove previous selections
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Select current option
+            document.querySelectorAll('.quiz-option')[optionIndex].classList.add('selected');
+            quizAnswers[currentLesson] = optionIndex;
+            
+            // Enable submit button
+            document.getElementById('submitQuizBtn').disabled = false;
+        }
+
+        function submitQuiz() {
+            const quiz = modules[currentLesson].quiz;
+            const selectedAnswer = quizAnswers[currentLesson];
+            const isCorrect = selectedAnswer === quiz.correct;
+            
+            // Show results
+            document.querySelectorAll('.quiz-option').forEach((option, index) => {
+                if (index === quiz.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+            
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.className = `mt-4 p-4 rounded-lg ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+            resultDiv.innerHTML = isCorrect ? 
+                '✅ Correct! Well done.' : 
+                `❌ Incorrect. The correct answer is: ${quiz.options[quiz.correct]}`;
+            resultDiv.classList.remove('hidden');
+            
+            document.getElementById('submitQuizBtn').style.display = 'none';
+            quizCompleted = true;
+        }
+
+        function completeLesson() {
+            if (!quizCompleted) {
+                alert('Please complete the quiz before finishing the module.');
+                return;
+            }
+            
+            completedLessons.add(currentLesson);
+            
+            // Show completion message
+            const completionMsg = document.createElement('div');
+            completionMsg.className = 'bg-orange-100 border border-orange-400 text-orange-700 px-4 py-3 rounded mb-4';
+            completionMsg.innerHTML = '🎉 Congratulations! You have completed this Java module!';
+            document.getElementById('lessonBody').insertBefore(completionMsg, document.getElementById('lessonBody').firstChild);
+            
+            // Update buttons
+            document.getElementById('completeLessonBtn').style.display = 'none';
+            if (currentLesson < modules.length - 1) {
+                document.getElementById('nextLessonBtn').style.display = 'block';
+            }
+            
+            updateProgress();
+        }
+
+        function nextLesson() {
+            if (currentLesson < modules.length - 1) {
+                openLesson(currentLesson + 1);
+            }
+        }
+
+        function prevLesson() {
+            if (currentLesson > 0) {
+                openLesson(currentLesson - 1);
+            }
+        }
+
+        function backToDashboard() {
+            document.getElementById('lessonContent').classList.add('hidden');
+            document.getElementById('courseDashboard').classList.remove('hidden');
+            generateModuleCards();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = Math.round((completedLessons.size / modules.length) * 100);
+            document.getElementById('overallProgress').textContent = progress;
+            document.getElementById('overallProgressBar').style.width = progress + '%';
+            
+            // Update certificate progress
+            const certificateProgress = document.getElementById('certificateProgress');
+            if (certificateProgress) {
+                certificateProgress.textContent = progress;
+            }
+            
+            // Show certificate if 100% complete
+            if (progress === 100) {
+                document.getElementById('certificateNotEarned').classList.add('hidden');
+                document.getElementById('certificateEarned').classList.remove('hidden');
+            }
+        }
+
+        function showTab(tabName) {
+            // Hide all content
+            document.getElementById('modulesContent').classList.add('hidden');
+            document.getElementById('assignmentsContent').classList.add('hidden');
+            document.getElementById('resourcesContent').classList.add('hidden');
+            document.getElementById('certificateContent').classList.add('hidden');
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('[id$="Tab"]').forEach(tab => {
+                tab.className = 'px-4 py-2 font-semibold text-gray-600 hover:text-orange-600';
+            });
+            
+            // Show selected content and activate tab
+            document.getElementById(tabName + 'Content').classList.remove('hidden');
+            document.getElementById(tabName + 'Tab').className = 'px-4 py-2 font-semibold text-orange-600 border-b-2 border-orange-600';
+            
+            currentTab = tabName;
+        }
+
+        // Initialize
+        window.openLesson = openLesson;
+        window.showTab = showTab;
+        window.selectQuizOption = selectQuizOption;
+        window.submitQuiz = submitQuiz;
+        window.completeLesson = completeLesson;
+        window.nextLesson = nextLesson;
+        window.prevLesson = prevLesson;
+        window.backToDashboard = backToDashboard;
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9784fda0174dff74',t:'MTc1NjczMjA0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

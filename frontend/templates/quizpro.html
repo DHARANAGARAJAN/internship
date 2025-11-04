@@ -1,0 +1,1472 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D square- Projects & Quizzes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ee56c3 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .nav justify-content-end{
+
+            background-color: #d561c2;
+            color: #850f73;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #ea66d8;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #d21ac9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 25px;
+            padding: 5px;
+        }
+
+        .mode-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .mode-btn.active {
+            background: #ea66bc;
+            color: white;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #ea66b5;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .project-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-tag {
+            background: #c6128d;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .quiz-container {
+            display: none;
+        }
+
+        .quiz-container.active {
+            display: block;
+        }
+
+        .question-card {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ec4cd4;
+        }
+
+        .question-number {
+            color: #ea3ead;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: #850f73;
+            background: #f0f4ff;
+        }
+
+        .option.selected {
+            border-color: #f135a9;
+            background: #ca39b2;
+            color: white;
+        }
+
+        .option.correct {
+            border-color: #4caf50;
+            background: #4caf50;
+            color: white;
+        }
+
+        .option.incorrect {
+            border-color: #f44336;
+            background: #f44336;
+            color: white;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .quiz-btn {
+            background: #d943af;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-btn:hover {
+            background: #e041ae;
+            transform: translateY(-2px);
+        }
+
+        .quiz-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .score-display {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #a81e98;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #9b2076);
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quiz-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <ul class="nav justify-content-end">
+  <li class="nav-item">
+    <a class="nav-link active"  href="{% url 'home' %}">home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'about' %}">about</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'login' %}">login</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'browserpage' %}">viewcourses</a>
+  </li>
+  
+</ul>
+         
+    <div class="container">
+        <div class="header">
+            <h1>D square</h1>
+            <p>Explore real-time project ideas and test your knowledge with interactive quizzes</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showCourse('fullstack')">Full Stack</button>
+            <button class="tab-btn" onclick="showCourse('datascience')">Data Science</button>
+            <button class="tab-btn" onclick="showCourse('java')">Java</button>
+            <button class="tab-btn" onclick="showCourse('react')">React</button>
+            <button class="tab-btn" onclick="showCourse('cloud')">Cloud</button>
+            <button class="tab-btn" onclick="showCourse('cybersecurity')">Cyber Security</button>
+            <button class="tab-btn" onclick="showCourse('cprogramming')">C Programming</button>
+            <button class="tab-btn" onclick="showCourse('excel')">Excel</button>
+        </div>
+
+        <!-- Full Stack Section -->
+        <div id="fullstack" class="content-section active">
+            <div class="section-header">
+                <h2 class="section-title">💻 Full Stack Development</h2>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('fullstack', 'projects')">Projects</button>
+                    <button class="mode-btn" onclick="showMode('fullstack', 'quiz')">Quiz</button>
+                </div>
+            </div>
+
+            <div id="fullstack-projects" class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">E-Commerce Platform</div>
+                        <div class="project-description">Build a complete online shopping platform with user authentication, product catalog, shopping cart, and payment integration.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Stripe API</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Social Media Dashboard</div>
+                        <div class="project-description">Create a real-time social media management tool with post scheduling, analytics, and multi-platform integration.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Express</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Socket.io</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Task Management System</div>
+                        <div class="project-description">Develop a collaborative project management tool with team features, file sharing, and progress tracking.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Angular</span>
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Redis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="fullstack-quiz" class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div id="fullstack-question-container"></div>
+                <div class="quiz-controls">
+                    <button class="quiz-btn" onclick="previousQuestion('fullstack')">Previous</button>
+                    <div class="score-display">Question <span id="fullstack-current">1</span> of 10 | Score: <span id="fullstack-score">0</span>/10</div>
+                    <button class="quiz-btn" onclick="nextQuestion('fullstack')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Science Section -->
+        <div id="datascience" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">📊 Data Science</h2>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('datascience', 'projects')">Projects</button>
+                    <button class="mode-btn" onclick="showMode('datascience', 'quiz')">Quiz</button>
+                </div>
+            </div>
+
+            <div id="datascience-projects" class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">Customer Churn Prediction</div>
+                        <div class="project-description">Build a machine learning model to predict customer churn using historical data and behavioral patterns.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Scikit-learn</span>
+                            <span class="tech-tag">Pandas</span>
+                            <span class="tech-tag">Matplotlib</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Stock Price Forecasting</div>
+                        <div class="project-description">Create a time series analysis system to predict stock prices using LSTM neural networks and technical indicators.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">TensorFlow</span>
+                            <span class="tech-tag">Keras</span>
+                            <span class="tech-tag">NumPy</span>
+                            <span class="tech-tag">Yahoo Finance API</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Sentiment Analysis Tool</div>
+                        <div class="project-description">Develop a natural language processing system to analyze sentiment from social media posts and reviews.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">NLTK</span>
+                            <span class="tech-tag">spaCy</span>
+                            <span class="tech-tag">Twitter API</span>
+                            <span class="tech-tag">Streamlit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="datascience-quiz" class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div id="datascience-question-container"></div>
+                <div class="quiz-controls">
+                    <button class="quiz-btn" onclick="previousQuestion('datascience')">Previous</button>
+                    <div class="score-display">Question <span id="datascience-current">1</span> of 10 | Score: <span id="datascience-score">0</span>/10</div>
+                    <button class="quiz-btn" onclick="nextQuestion('datascience')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Java Section -->
+        <div id="java" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">☕ Java Development</h2>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('java', 'projects')">Projects</button>
+                    <button class="mode-btn" onclick="showMode('java', 'quiz')">Quiz</button>
+                </div>
+            </div>
+
+            <div id="java-projects" class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">Banking Management System</div>
+                        <div class="project-description">Create a comprehensive banking application with account management, transactions, and security features using Spring Boot.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Spring Boot</span>
+                            <span class="tech-tag">JPA/Hibernate</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Thymeleaf</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Library Management System</div>
+                        <div class="project-description">Build a desktop application for library operations including book cataloging, member management, and lending system.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">JavaFX</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">JDBC</span>
+                            <span class="tech-tag">Maven</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">RESTful API Service</div>
+                        <div class="project-description">Develop a scalable REST API for a blog platform with authentication, CRUD operations, and documentation.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Spring MVC</span>
+                            <span class="tech-tag">JWT</span>
+                            <span class="tech-tag">Swagger</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="java-quiz" class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div id="java-question-container"></div>
+                <div class="quiz-controls">
+                    <button class="quiz-btn" onclick="previousQuestion('java')">Previous</button>
+                    <div class="score-display">Question <span id="java-current">1</span> of 10 | Score: <span id="java-score">0</span>/10</div>
+                    <button class="quiz-btn" onclick="nextQuestion('java')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- React Section -->
+        <div id="react" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">⚛️ React Development</h2>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('react', 'projects')">Projects</button>
+                    <button class="mode-btn" onclick="showMode('react', 'quiz')">Quiz</button>
+                </div>
+            </div>
+
+            <div id="react-projects" class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">Weather Dashboard</div>
+                        <div class="project-description">Build a responsive weather application with location-based forecasts, interactive maps, and weather alerts.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">React Hooks</span>
+                            <span class="tech-tag">Context API</span>
+                            <span class="tech-tag">OpenWeather API</span>
+                            <span class="tech-tag">Chart.js</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Movie Streaming App</div>
+                        <div class="project-description">Create a Netflix-like interface with movie browsing, search functionality, and user favorites using React Router.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">React Router</span>
+                            <span class="tech-tag">Redux Toolkit</span>
+                            <span class="tech-tag">TMDB API</span>
+                            <span class="tech-tag">Styled Components</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Real-time Chat Application</div>
+                        <div class="project-description">Develop a messaging app with real-time communication, file sharing, and group chat features.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Socket.io</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Material-UI</span>
+                            <span class="tech-tag">React Query</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="react-quiz" class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div id="react-question-container"></div>
+                <div class="quiz-controls">
+                    <button class="quiz-btn" onclick="previousQuestion('react')">Previous</button>
+                    <div class="score-display">Question <span id="react-current">1</span> of 10 | Score: <span id="react-score">0</span>/10</div>
+                    <button class="quiz-btn" onclick="nextQuestion('react')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cloud Section -->
+        <div id="cloud" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">☁️ Cloud Computing</h2>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('cloud', 'projects')">Projects</button>
+                    <button class="mode-btn" onclick="showMode('cloud', 'quiz')">Quiz</button>
+                </div>
+            </div>
+
+            <div id="cloud-projects" class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">Serverless Web Application</div>
+                        <div class="project-description">Deploy a scalable web app using AWS Lambda, API Gateway, and DynamoDB with automated CI/CD pipeline.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">AWS Lambda</span>
+                            <span class="tech-tag">API Gateway</span>
+                            <span class="tech-tag">DynamoDB</span>
+                            <span class="tech-tag">CloudFormation</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Container Orchestration</div>
+                        <div class="project-description">Build a microservices architecture using Docker containers and Kubernetes for auto-scaling and load balancing.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">Helm</span>
+                            <span class="tech-tag">Prometheus</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Multi-Cloud Storage Solution</div>
+                        <div class="project-description">Create a unified storage system that works across AWS S3, Google Cloud Storage, and Azure Blob Storage.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">AWS S3</span>
+                            <span class="tech-tag">Google Cloud</span>
+                            <span class="tech-tag">Azure</span>
+                            <span class="tech-tag">Terraform</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cloud-quiz" class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div id="cloud-question-container"></div>
+                <div class="quiz-controls">
+                    <button class="quiz-btn" onclick="previousQuestion('cloud')">Previous</button>
+                    <div class="score-display">Question <span id="cloud-current">1</span> of 10 | Score: <span id="cloud-score">0</span>/10</div>
+                    <button class="quiz-btn" onclick="nextQuestion('cloud')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cyber Security Section -->
+        <div id="cybersecurity" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">🔒 Cyber Security</h2>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('cybersecurity', 'projects')">Projects</button>
+                    <button class="mode-btn" onclick="showMode('cybersecurity', 'quiz')">Quiz</button>
+                </div>
+            </div>
+
+            <div id="cybersecurity-projects" class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">Network Security Scanner</div>
+                        <div class="project-description">Develop a tool to scan networks for vulnerabilities, open ports, and security misconfigurations with reporting features.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Nmap</span>
+                            <span class="tech-tag">Scapy</span>
+                            <span class="tech-tag">SQLite</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Password Security Analyzer</div>
+                        <div class="project-description">Create a comprehensive password strength checker with breach detection and secure password generation.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Cryptography</span>
+                            <span class="tech-tag">Hash Functions</span>
+                            <span class="tech-tag">API Integration</span>
+                            <span class="tech-tag">Regex</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Intrusion Detection System</div>
+                        <div class="project-description">Build a real-time IDS that monitors network traffic and alerts on suspicious activities using machine learning.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Wireshark</span>
+                            <span class="tech-tag">Machine Learning</span>
+                            <span class="tech-tag">Packet Analysis</span>
+                            <span class="tech-tag">Alert System</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cybersecurity-quiz" class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div id="cybersecurity-question-container"></div>
+                <div class="quiz-controls">
+                    <button class="quiz-btn" onclick="previousQuestion('cybersecurity')">Previous</button>
+                    <div class="score-display">Question <span id="cybersecurity-current">1</span> of 10 | Score: <span id="cybersecurity-score">0</span>/10</div>
+                    <button class="quiz-btn" onclick="nextQuestion('cybersecurity')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- C Programming Section -->
+        <div id="cprogramming" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">🔧 C Programming</h2>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('cprogramming', 'projects')">Projects</button>
+                    <button class="mode-btn" onclick="showMode('cprogramming', 'quiz')">Quiz</button>
+                </div>
+            </div>
+
+            <div id="cprogramming-projects" class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">File Compression Tool</div>
+                        <div class="project-description">Implement Huffman coding algorithm to create a file compression and decompression utility with GUI interface.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Data Structures</span>
+                            <span class="tech-tag">Binary Trees</span>
+                            <span class="tech-tag">File I/O</span>
+                            <span class="tech-tag">GTK</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Memory Management System</div>
+                        <div class="project-description">Build a custom memory allocator that implements malloc, free, and garbage collection with performance monitoring.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Pointers</span>
+                            <span class="tech-tag">Dynamic Memory</span>
+                            <span class="tech-tag">Linked Lists</span>
+                            <span class="tech-tag">System Calls</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Multi-threaded Web Server</div>
+                        <div class="project-description">Create a lightweight HTTP server that handles multiple concurrent connections using threads and socket programming.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Socket Programming</span>
+                            <span class="tech-tag">Pthreads</span>
+                            <span class="tech-tag">HTTP Protocol</span>
+                            <span class="tech-tag">Concurrency</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cprogramming-quiz" class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div id="cprogramming-question-container"></div>
+                <div class="quiz-controls">
+                    <button class="quiz-btn" onclick="previousQuestion('cprogramming')">Previous</button>
+                    <div class="score-display">Question <span id="cprogramming-current">1</span> of 10 | Score: <span id="cprogramming-score">0</span>/10</div>
+                    <button class="quiz-btn" onclick="nextQuestion('cprogramming')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Excel Section -->
+        <div id="excel" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">📊 Excel Mastery</h2>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="showMode('excel', 'projects')">Projects</button>
+                    <button class="mode-btn" onclick="showMode('excel', 'quiz')">Quiz</button>
+                </div>
+            </div>
+
+            <div id="excel-projects" class="projects-container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">Financial Dashboard</div>
+                        <div class="project-description">Create an interactive financial dashboard with pivot tables, charts, and automated reporting for budget analysis.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Pivot Tables</span>
+                            <span class="tech-tag">Charts</span>
+                            <span class="tech-tag">Conditional Formatting</span>
+                            <span class="tech-tag">Macros</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Inventory Management System</div>
+                        <div class="project-description">Build a comprehensive inventory tracker with automated reorder alerts, supplier management, and cost analysis.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">VLOOKUP</span>
+                            <span class="tech-tag">Data Validation</span>
+                            <span class="tech-tag">VBA</span>
+                            <span class="tech-tag">Power Query</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Sales Performance Tracker</div>
+                        <div class="project-description">Develop a dynamic sales dashboard with KPI tracking, trend analysis, and automated commission calculations.</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Power Pivot</span>
+                            <span class="tech-tag">Slicers</span>
+                            <span class="tech-tag">Advanced Formulas</span>
+                            <span class="tech-tag">Dashboard Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="excel-quiz" class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div id="excel-question-container"></div>
+                <div class="quiz-controls">
+                    <button class="quiz-btn" onclick="previousQuestion('excel')">Previous</button>
+                    <div class="score-display">Question <span id="excel-current">1</span> of 10 | Score: <span id="excel-score">0</span>/10</div>
+                    <button class="quiz-btn" onclick="nextQuestion('excel')">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+    <p><strong>Progress:</strong> {{ data.completed }}/{{ data.total }} questions completed</p>
+    <div class="progress" style="height: 20px;">
+        <div class="progress-bar bg-success" role="progressbar" 
+             style="width: {{ data.progress_percent }}%;" 
+             aria-valuenow="{{ data.progress_percent }}" 
+             aria-valuemin="0" aria-valuemax="100">
+            {{ data.progress_percent }}%
+        </div>
+    </div>
+</div>
+
+    <script>
+        // Quiz questions for each course
+        const quizData = {
+            fullstack: [
+                {
+                    question: "What is the correct way to create a React component?",
+                    options: ["function MyComponent() { return <div>Hello</div>; }", "const MyComponent = () => <div>Hello</div>;", "class MyComponent extends React.Component { render() { return <div>Hello</div>; } }", "All of the above"],
+                    correct: 3
+                },
+                {
+                    question: "Which HTTP method is used to update existing data?",
+                    options: ["GET", "POST", "PUT", "DELETE"],
+                    correct: 2
+                },
+                {
+                    question: "What does CORS stand for?",
+                    options: ["Cross-Origin Resource Sharing", "Cross-Origin Request Security", "Cross-Origin Resource Security", "Cross-Origin Request Sharing"],
+                    correct: 0
+                },
+                {
+                    question: "In Node.js, which module is used for file operations?",
+                    options: ["http", "fs", "path", "url"],
+                    correct: 1
+                },
+                {
+                    question: "What is the purpose of middleware in Express.js?",
+                    options: ["To handle database connections", "To process requests before they reach route handlers", "To manage user sessions", "To serve static files"],
+                    correct: 1
+                },
+                {
+                    question: "Which database type is MongoDB?",
+                    options: ["Relational", "NoSQL Document", "Graph", "Key-Value"],
+                    correct: 1
+                },
+                {
+                    question: "What is the correct syntax for a CSS Grid container?",
+                    options: ["display: grid;", "display: flex-grid;", "display: css-grid;", "display: grid-container;"],
+                    correct: 0
+                },
+                {
+                    question: "In JavaScript, what does 'hoisting' mean?",
+                    options: ["Moving variables to the top of their scope", "Lifting heavy objects", "Creating new variables", "Deleting variables"],
+                    correct: 0
+                },
+                {
+                    question: "What is JWT used for?",
+                    options: ["Database queries", "User authentication", "File uploads", "Email sending"],
+                    correct: 1
+                },
+                {
+                    question: "Which command initializes a new Node.js project?",
+                    options: ["node init", "npm start", "npm init", "node create"],
+                    correct: 2
+                }
+            ],
+            datascience: [
+                {
+                    question: "Which Python library is primarily used for data manipulation?",
+                    options: ["NumPy", "Pandas", "Matplotlib", "Scikit-learn"],
+                    correct: 1
+                },
+                {
+                    question: "What does 'overfitting' mean in machine learning?",
+                    options: ["Model performs well on training data but poorly on test data", "Model performs poorly on all data", "Model is too simple", "Model has too few parameters"],
+                    correct: 0
+                },
+                {
+                    question: "Which algorithm is best for classification problems?",
+                    options: ["Linear Regression", "K-Means", "Random Forest", "PCA"],
+                    correct: 2
+                },
+                {
+                    question: "What is the purpose of cross-validation?",
+                    options: ["To increase model complexity", "To evaluate model performance", "To reduce dataset size", "To speed up training"],
+                    correct: 1
+                },
+                {
+                    question: "In pandas, which method is used to handle missing values?",
+                    options: ["dropna()", "fillna()", "isnull()", "All of the above"],
+                    correct: 3
+                },
+                {
+                    question: "What does SQL stand for?",
+                    options: ["Structured Query Language", "Simple Query Language", "Standard Query Language", "Sequential Query Language"],
+                    correct: 0
+                },
+                {
+                    question: "Which visualization library is built on top of Matplotlib?",
+                    options: ["Plotly", "Seaborn", "Bokeh", "Altair"],
+                    correct: 1
+                },
+                {
+                    question: "What is the difference between supervised and unsupervised learning?",
+                    options: ["Supervised uses labeled data, unsupervised doesn't", "Supervised is faster", "Unsupervised is more accurate", "No difference"],
+                    correct: 0
+                },
+                {
+                    question: "Which metric is used for regression problems?",
+                    options: ["Accuracy", "Precision", "Mean Squared Error", "F1-Score"],
+                    correct: 2
+                },
+                {
+                    question: "What is feature engineering?",
+                    options: ["Creating new features from existing data", "Removing features", "Scaling features", "Selecting features"],
+                    correct: 0
+                }
+            ],
+            java: [
+                {
+                    question: "Which keyword is used to inherit a class in Java?",
+                    options: ["implements", "extends", "inherits", "super"],
+                    correct: 1
+                },
+                {
+                    question: "What is the correct way to declare a constant in Java?",
+                    options: ["const int x = 5;", "final int x = 5;", "static int x = 5;", "readonly int x = 5;"],
+                    correct: 1
+                },
+                {
+                    question: "Which collection allows duplicate elements?",
+                    options: ["Set", "Map", "List", "Queue"],
+                    correct: 2
+                },
+                {
+                    question: "What is the purpose of the 'static' keyword?",
+                    options: ["To create instance variables", "To create class-level variables/methods", "To prevent inheritance", "To enable polymorphism"],
+                    correct: 1
+                },
+                {
+                    question: "Which exception is thrown when dividing by zero?",
+                    options: ["NullPointerException", "ArithmeticException", "NumberFormatException", "IllegalArgumentException"],
+                    correct: 1
+                },
+                {
+                    question: "What is method overloading?",
+                    options: ["Same method name with different parameters", "Overriding parent methods", "Creating abstract methods", "Using multiple inheritance"],
+                    correct: 0
+                },
+                {
+                    question: "Which access modifier provides the most restrictive access?",
+                    options: ["public", "protected", "default", "private"],
+                    correct: 3
+                },
+                {
+                    question: "What is the correct syntax for a for-each loop?",
+                    options: ["for(int i : array)", "foreach(int i in array)", "for(int i in array)", "for each(int i : array)"],
+                    correct: 0
+                },
+                {
+                    question: "Which interface is implemented by all collections?",
+                    options: ["Iterable", "Collection", "List", "Set"],
+                    correct: 1
+                },
+                {
+                    question: "What is the difference between == and .equals()?",
+                    options: ["No difference", "== compares references, .equals() compares content", "== compares content, .equals() compares references", "Both compare content"],
+                    correct: 1
+                }
+            ],
+            react: [
+                {
+                    question: "What is JSX?",
+                    options: ["JavaScript XML", "Java Syntax Extension", "JavaScript Extension", "JSON XML"],
+                    correct: 0
+                },
+                {
+                    question: "Which hook is used for side effects?",
+                    options: ["useState", "useEffect", "useContext", "useReducer"],
+                    correct: 1
+                },
+                {
+                    question: "How do you pass data from parent to child component?",
+                    options: ["Through state", "Through props", "Through context", "Through refs"],
+                    correct: 1
+                },
+                {
+                    question: "What is the virtual DOM?",
+                    options: ["A copy of the real DOM in memory", "A new type of DOM", "A DOM manipulation library", "A browser feature"],
+                    correct: 0
+                },
+                {
+                    question: "Which method is called after a component is mounted?",
+                    options: ["componentDidMount", "componentWillMount", "componentDidUpdate", "componentWillUnmount"],
+                    correct: 0
+                },
+                {
+                    question: "What is the purpose of keys in React lists?",
+                    options: ["For styling", "For unique identification", "For sorting", "For filtering"],
+                    correct: 1
+                },
+                {
+                    question: "How do you handle forms in React?",
+                    options: ["Controlled components", "Uncontrolled components", "Both", "Neither"],
+                    correct: 2
+                },
+                {
+                    question: "What is Redux used for?",
+                    options: ["Routing", "State management", "Styling", "Testing"],
+                    correct: 1
+                },
+                {
+                    question: "Which hook replaces componentDidMount?",
+                    options: ["useState", "useEffect with empty dependency array", "useContext", "useMemo"],
+                    correct: 1
+                },
+                {
+                    question: "What is prop drilling?",
+                    options: ["Passing props through multiple component levels", "Creating new props", "Deleting props", "Modifying props"],
+                    correct: 0
+                }
+            ],
+            cloud: [
+                {
+                    question: "What does IaaS stand for?",
+                    options: ["Internet as a Service", "Infrastructure as a Service", "Integration as a Service", "Information as a Service"],
+                    correct: 1
+                },
+                {
+                    question: "Which AWS service is used for object storage?",
+                    options: ["EC2", "RDS", "S3", "Lambda"],
+                    correct: 2
+                },
+                {
+                    question: "What is containerization?",
+                    options: ["Packaging applications with dependencies", "Creating virtual machines", "Network isolation", "Data encryption"],
+                    correct: 0
+                },
+                {
+                    question: "Which tool is used for container orchestration?",
+                    options: ["Docker", "Kubernetes", "Jenkins", "Terraform"],
+                    correct: 1
+                },
+                {
+                    question: "What is serverless computing?",
+                    options: ["Computing without servers", "Computing with managed servers", "Computing with virtual servers", "Computing with cloud servers"],
+                    correct: 1
+                },
+                {
+                    question: "Which service provides DNS in AWS?",
+                    options: ["CloudFront", "Route 53", "VPC", "IAM"],
+                    correct: 1
+                },
+                {
+                    question: "What is auto-scaling?",
+                    options: ["Manual resource adjustment", "Automatic resource adjustment based on demand", "Fixed resource allocation", "Resource monitoring"],
+                    correct: 1
+                },
+                {
+                    question: "Which protocol is commonly used for API communication?",
+                    options: ["FTP", "SMTP", "HTTP/HTTPS", "SSH"],
+                    correct: 2
+                },
+                {
+                    question: "What is Infrastructure as Code (IaC)?",
+                    options: ["Writing code for applications", "Managing infrastructure through code", "Coding in the cloud", "Infrastructure monitoring"],
+                    correct: 1
+                },
+                {
+                    question: "Which AWS service is used for monitoring?",
+                    options: ["CloudWatch", "CloudTrail", "Config", "Inspector"],
+                    correct: 0
+                }
+            ],
+            cybersecurity: [
+                {
+                    question: "What does CIA triad stand for in cybersecurity?",
+                    options: ["Central Intelligence Agency", "Confidentiality, Integrity, Availability", "Computer Information Access", "Cyber Intelligence Analysis"],
+                    correct: 1
+                },
+                {
+                    question: "Which type of attack involves overwhelming a server with requests?",
+                    options: ["Phishing", "DDoS", "SQL Injection", "Cross-site Scripting"],
+                    correct: 1
+                },
+                {
+                    question: "What is the purpose of a firewall?",
+                    options: ["To encrypt data", "To filter network traffic", "To backup data", "To scan for viruses"],
+                    correct: 1
+                },
+                {
+                    question: "Which encryption type uses the same key for encryption and decryption?",
+                    options: ["Asymmetric", "Symmetric", "Hash", "Digital signature"],
+                    correct: 1
+                },
+                {
+                    question: "What is social engineering?",
+                    options: ["Building social networks", "Manipulating people to reveal information", "Engineering social media", "Creating social applications"],
+                    correct: 1
+                },
+                {
+                    question: "Which port is commonly used for HTTPS?",
+                    options: ["80", "443", "22", "21"],
+                    correct: 1
+                },
+                {
+                    question: "What is a vulnerability assessment?",
+                    options: ["Fixing security issues", "Identifying security weaknesses", "Implementing security controls", "Monitoring security events"],
+                    correct: 1
+                },
+                {
+                    question: "Which authentication factor is 'something you know'?",
+                    options: ["Fingerprint", "Password", "Smart card", "Voice recognition"],
+                    correct: 1
+                },
+                {
+                    question: "What is malware?",
+                    options: ["Good software", "Malicious software", "System software", "Application software"],
+                    correct: 1
+                },
+                {
+                    question: "Which technique is used to hide data within other data?",
+                    options: ["Encryption", "Hashing", "Steganography", "Compression"],
+                    correct: 2
+                }
+            ],
+            cprogramming: [
+                {
+                    question: "Which header file is required for printf() function?",
+                    options: ["<stdlib.h>", "<stdio.h>", "<string.h>", "<math.h>"],
+                    correct: 1
+                },
+                {
+                    question: "What is the correct way to declare a pointer?",
+                    options: ["int ptr;", "int *ptr;", "int &ptr;", "pointer int ptr;"],
+                    correct: 1
+                },
+                {
+                    question: "Which function is used to allocate memory dynamically?",
+                    options: ["alloc()", "malloc()", "memory()", "new()"],
+                    correct: 1
+                },
+                {
+                    question: "What is the size of int data type (typically)?",
+                    options: ["1 byte", "2 bytes", "4 bytes", "8 bytes"],
+                    correct: 2
+                },
+                {
+                    question: "Which operator is used to get the address of a variable?",
+                    options: ["*", "&", "%", "#"],
+                    correct: 1
+                },
+                {
+                    question: "What is the correct syntax for a for loop?",
+                    options: ["for(init; condition; increment)", "for(condition; init; increment)", "for(increment; condition; init)", "for(init; increment; condition)"],
+                    correct: 0
+                },
+                {
+                    question: "Which function is used to copy strings?",
+                    options: ["strcopy()", "strcpy()", "stringcopy()", "copy()"],
+                    correct: 1
+                },
+                {
+                    question: "What does the 'static' keyword do in C?",
+                    options: ["Makes variable global", "Preserves variable value between function calls", "Makes variable constant", "Allocates memory dynamically"],
+                    correct: 1
+                },
+                {
+                    question: "Which is the correct way to declare an array?",
+                    options: ["int arr[];", "int arr[10];", "array int arr[10];", "int [10]arr;"],
+                    correct: 1
+                },
+                {
+                    question: "What is the return type of main() function?",
+                    options: ["void", "int", "char", "float"],
+                    correct: 1
+                }
+            ],
+            excel: [
+                {
+                    question: "Which function is used to find the maximum value in a range?",
+                    options: ["MAXIMUM()", "MAX()", "HIGHEST()", "TOP()"],
+                    correct: 1
+                },
+                {
+                    question: "What does VLOOKUP stand for?",
+                    options: ["Vertical Lookup", "Value Lookup", "Variable Lookup", "Vector Lookup"],
+                    correct: 0
+                },
+                {
+                    question: "Which key combination is used to enter a formula as an array formula?",
+                    options: ["Ctrl+Enter", "Ctrl+Shift+Enter", "Alt+Enter", "Shift+Enter"],
+                    correct: 1
+                },
+                {
+                    question: "What is the correct syntax for an IF statement?",
+                    options: ["IF(condition, true_value, false_value)", "IF(true_value, condition, false_value)", "IF(condition; true_value; false_value)", "IF[condition, true_value, false_value]"],
+                    correct: 0
+                },
+                {
+                    question: "Which function counts non-empty cells?",
+                    options: ["COUNT()", "COUNTA()", "COUNTIF()", "COUNTNUMBER()"],
+                    correct: 1
+                },
+                {
+                    question: "What is a pivot table used for?",
+                    options: ["Data entry", "Data summarization and analysis", "Chart creation", "Formula calculation"],
+                    correct: 1
+                },
+                {
+                    question: "Which function is used to remove spaces from text?",
+                    options: ["CLEAN()", "TRIM()", "REMOVE()", "SPACE()"],
+                    correct: 1
+                },
+                {
+                    question: "What does the $ symbol do in cell references?",
+                    options: ["Indicates currency", "Makes reference absolute", "Adds dollar sign", "Creates formula"],
+                    correct: 1
+                },
+                {
+                    question: "Which chart type is best for showing trends over time?",
+                    options: ["Pie chart", "Bar chart", "Line chart", "Scatter plot"],
+                    correct: 2
+                },
+                {
+                    question: "What is conditional formatting?",
+                    options: ["Formatting based on cell values", "Formatting formulas", "Formatting charts", "Formatting pivot tables"],
+                    correct: 0
+                }
+            ]
+        };
+
+        // Current quiz state
+        let currentQuiz = {};
+        let currentCourse = 'fullstack';
+
+        // Initialize quiz state for all courses
+        function initializeQuizzes() {
+            Object.keys(quizData).forEach(course => {
+                currentQuiz[course] = {
+                    currentQuestion: 0,
+                    score: 0,
+                    answers: new Array(10).fill(null),
+                    showingResults: false
+                };
+            });
+        }
+
+        // Show course content
+        function showCourse(course) {
+            // Update active tab
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(course).classList.add('active');
+            
+            currentCourse = course;
+            
+            // Initialize quiz if not already done
+            if (!currentQuiz[course]) {
+                currentQuiz[course] = {
+                    currentQuestion: 0,
+                    score: 0,
+                    answers: new Array(10).fill(null),
+                    showingResults: false
+                };
+            }
+            
+            // Load quiz if in quiz mode
+            const quizContainer = document.getElementById(`${course}-quiz`);
+            if (quizContainer && quizContainer.classList.contains('active')) {
+                loadQuestion(course);
+            }
+        }
+
+        // Show mode (projects or quiz)
+        function showMode(course, mode) {
+            // Update active mode button
+            const modeButtons = document.querySelectorAll(`#${course} .mode-btn`);
+            modeButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show/hide content
+            const projectsContainer = document.getElementById(`${course}-projects`);
+            const quizContainer = document.getElementById(`${course}-quiz`);
+            
+            if (mode === 'projects') {
+                projectsContainer.style.display = 'block';
+                quizContainer.classList.remove('active');
+            } else {
+                projectsContainer.style.display = 'none';
+                quizContainer.classList.add('active');
+                loadQuestion(course);
+            }
+        }
+
+        // Load current question
+        function loadQuestion(course) {
+            const quiz = currentQuiz[course];
+            const questionData = quizData[course][quiz.currentQuestion];
+            const container = document.getElementById(`${course}-question-container`);
+            
+            container.innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">Question ${quiz.currentQuestion + 1} of 10</div>
+                    <div class="question-text">${questionData.question}</div>
+                    <div class="options">
+                        ${questionData.options.map((option, index) => `
+                            <div class="option" onclick="selectAnswer('${course}', ${index})" data-index="${index}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Restore previous answer if exists
+            if (quiz.answers[quiz.currentQuestion] !== null) {
+                const selectedOption = container.querySelector(`[data-index="${quiz.answers[quiz.currentQuestion]}"]`);
+                if (selectedOption) {
+                    selectedOption.classList.add('selected');
+                }
+            }
+            
+            // Update progress bar
+            const progressFill = document.querySelector(`#${course} .progress-fill`);
+            progressFill.style.width = `${((quiz.currentQuestion + 1) / 10) * 100}%`;
+            
+            // Update current question display
+            document.getElementById(`${course}-current`).textContent = quiz.currentQuestion + 1;
+            document.getElementById(`${course}-score`).textContent = quiz.score;
+        }
+
+        // Select answer
+        function selectAnswer(course, answerIndex) {
+            const quiz = currentQuiz[course];
+            const container = document.getElementById(`${course}-question-container`);
+            
+            // Remove previous selection
+            container.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Mark selected answer
+            const selectedOption = container.querySelector(`[data-index="${answerIndex}"]`);
+            selectedOption.classList.add('selected');
+            
+            // Store answer
+            quiz.answers[quiz.currentQuestion] = answerIndex;
+            
+            // Show correct answer after selection
+            setTimeout(() => {
+                const correctIndex = quizData[course][quiz.currentQuestion].correct;
+                const correctOption = container.querySelector(`[data-index="${correctIndex}"]`);
+                
+                if (answerIndex === correctIndex) {
+                    selectedOption.classList.remove('selected');
+                    selectedOption.classList.add('correct');
+                    if (quiz.answers[quiz.currentQuestion] === correctIndex && !quiz.showingResults) {
+                        quiz.score++;
+                        document.getElementById(`${course}-score`).textContent = quiz.score;
+                    }
+                } else {
+                    selectedOption.classList.remove('selected');
+                    selectedOption.classList.add('incorrect');
+                    correctOption.classList.add('correct');
+                }
+            }, 500);
+        }
+
+        // Next question
+        function nextQuestion(course) {
+            const quiz = currentQuiz[course];
+            
+            if (quiz.currentQuestion < 9) {
+                quiz.currentQuestion++;
+                loadQuestion(course);
+            } else {
+                // Quiz completed
+                showResults(course);
+            }
+        }
+
+        // Previous question
+        function previousQuestion(course) {
+            const quiz = currentQuiz[course];
+            
+            if (quiz.currentQuestion > 0) {
+                quiz.currentQuestion--;
+                loadQuestion(course);
+            }
+        }
+
+        // Show results
+        function showResults(course) {
+            const quiz = currentQuiz[course];
+            const container = document.getElementById(`${course}-question-container`);
+            
+            const percentage = Math.round((quiz.score / 10) * 100);
+            let message = '';
+            
+            if (percentage >= 80) {
+                message = '🎉 Excellent! You have a strong understanding of ' + course + '!';
+            } else if (percentage >= 60) {
+                message = '👍 Good job! You have a solid foundation in ' + course + '.';
+            } else {
+                message = '📚 Keep studying! There\'s room for improvement in ' + course + '.';
+            }
+            
+            container.innerHTML = `
+                <div class="question-card" style="text-align: center;">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">Quiz Complete!</h3>
+                    <div style="font-size: 3rem; margin: 20px 0;">${percentage}%</div>
+                    <div style="font-size: 1.2rem; margin-bottom: 20px;">You scored ${quiz.score} out of 10</div>
+                    <div style="font-size: 1.1rem; color: #666; margin-bottom: 30px;">${message}</div>
+                    <button class="quiz-btn" onclick="restartQuiz('${course}')">Restart Quiz</button>
+                </div>
+            `;
+            
+            quiz.showingResults = true;
+        }
+
+        // Restart quiz
+        function restartQuiz(course) {
+            currentQuiz[course] = {
+                currentQuestion: 0,
+                score: 0,
+                answers: new Array(10).fill(null),
+                showingResults: false
+            };
+            loadQuestion(course);
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeQuizzes();
+            loadQuestion('fullstack');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9654b7a66247ff6e',t:'MTc1MzU0MTUxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</html>

@@ -1,0 +1,105 @@
+/* Reset */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f9f9f9;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #c72ba7;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+}
+
+.nav-links li a:hover {
+    color: #f0f0f0;
+}
+
+/* Register Box */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.form-box {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+input, select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ec4899;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #db2777;
+}
+
+a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Stack Web Development</title>
+<link rel="stylesheet" href="{% static 'css/course.css' %}">
+</head>
+<body>
+
+<header>
+  <h1>Excel course</h1>
+  <p>Master in Microsoft excel!</p>
+</header>
+
+<section class="course-info">
+  <h2>Course Information</h2>
+  <ul>
+    <li><strong>Price:</strong> ₹4999</li>
+    <li><strong>Duration:</strong> 12 weeks</li>
+    <li><strong>Level:</strong> Beginner → Advanced</li>
+  </ul>
+  <button id="registerBtn">
+    <a href="{% url 'register' %}"><strong>sign up here</strong></a>
+    Register Now</button>
+</section>
+
+<section id="courseContent" class="hidden">
+  <h2>Course Content</h2>
+  <ul>
+    <li>1: Introduction to Excel & Basic Operations</li>
+    <li>Module 2: Formulas, Functions & Data Formatting</li>
+    <li>Module 3: Charts, PivotTables & Data Visualization</li>
+    <li>Module 4: Advanced Functions & Macros</li>
+    <li>Module 5: Automation & Data Analysis Techniques</li>
+  </ul>
+
+  <h2>Course Videos</h2>
+  <ol>
+    <li><a href="#" target="_blank">Introduction</a></li>
+    <li><a href="#" target="_blank">Formulas</a></li>
+    <li><a href="#" target="_blank">Automation</a></li>
+  </ol>
+
+  
+</section>
+
+<script>
+document.getElementById('registerBtn').addEventListener('click', function() {
+  document.getElementById('courseContent').classList.remove('hidden');
+  this.style.display = 'none';
+});
+</script>
+
+</body>
+</html>

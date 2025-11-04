@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Browser</title>
+<link rel="stylesheet" href="{% static 'css/browser.css'  %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:rgb(169, 67, 152);">
+    <div class="container-fluid">
+    <a class="navbar-brand" href="#">D Square Learning</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="{%  url 'home' %}">Home</a>
+          
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'quizpro' %}">Projects/Quiz</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<!-- Optional JS for Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  </div>
+</nav>
+
+<div class="courses">
+   
+    <div class="course-card">
+        <img src="{% static 'images/webdev.jpg' %}" alt="Full Stack Web Development">
+        <div class="course-content">
+            <h3>Full Stack Web Development</h3>
+            <p>Learn HTML, CSS, JavaScript, and backend development to build full functional web apps
+                and apply basic design principles to present ideas,imformation,products and services on  websites.</p>
+            <a href="{% url 'fullstack' %}" class="view-btn">View Course</a>
+        </div>
+    </div>
+    <div class="course-card">
+        <img src="{% static 'images/datascience.jpg' %}"alt="datascience course">
+        <div class="course-content">
+            <h3>python for Data Science</h3>
+            <p>master python and data science is the science of Analyzing raw data using statistics and machine learning techniques with the purpose of drawing conclusions about that information .</p>
+            <a href="{% url 'datascience' %}" class="view-btn">View Course</a>
+        </div>
+    </div>
+    <div class="course-card">
+        <img src="{% static 'images/reacts.jpg' %}" alt="React.js Masterclass">
+        <div class="course-content">
+            <h3>React.js Masterclass</h3>
+            <p>Learn how to build fast, interactive UIs with React,
+                 Create your own React components like Thumbnail, LikeButton, and Video. Then combine them into entire screens, pages, and apps.</p>
+            <a href="{%  url 'reactjs' %}" class="view-btn">View Course</a>
+        </div>
+    </div>
+    <div class="course-card">
+        <img src="{% static 'images/javac.jpg' %}" alt="java course">
+        <div class="course-content">
+            <h3>Beginer to Advanced in Java </h3>
+            <p>Aim to develop object-oriented programs using
+                 core concepts like classes,objects,inheritance,and polymorphism and solve real time problems.</p>
+            <a href="{% url 'java' %}" class="view-btn">View Course</a>
+        </div>
+    </div>
+    <div class="course-card">
+        <img src="{% static 'images/cloud.jpg' %}" alt="cloudcomputing course">
+        <div class="course-content">
+            <h3>Cloud cloudcomputing</h3>
+            <p>this course will introduce various aspects of cloud computing, including fundamentals, management issues, security challenges and future research trends.atforms.</p>
+            <a href="{% url 'cloud' %}" class="view-btn">View Course</a>
+        </div>
+    </div>
+    <div class="course-card">
+        <img src="{% static 'images/cpro.jpg'  %}" alt="c programming course">
+        <div class="course-content">
+            <h3>C programming </h3>
+            <p>C is a powerful general-purpose programming language that has been foundational in the development of modern software, operating systems, and embedded systems.</p>
+            <a href="{% url 'cprogramming' %}" class="view-btn">View Course</a>
+        </div>
+    </div>    
+    <div class="course-card">
+        <img src="{% static 'images/cyber.jpg'  %}" alt="cyber security">
+        <div class="course-content">
+            <h3>Cyber security</h3>
+            <p>Analyzing and evaluating legal frameworks and laws related to cyber security.
+                Protecting critical assets, customer data privacy, and ensuring compliance with regulations..</p>
+            <a href="{%  url 'cybersecurity' %}" class="view-btn">View Course</a>
+        </div>
+    </div>
+    <div class="course-card">
+        <img src="{% static 'images/excel.jpg'  %}" alt="excel">
+        <div class="course-content">
+            <h3>Microsoft Excel</h3>
+            <p>
+                To empower students with advanced Excel skills for data analysis, visualization, and reporting. To enable learners to efficiently manage and process large datasets.</p>
+            <a href="{% url 'excel' %}" class="view-btn">View Course</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>
+         

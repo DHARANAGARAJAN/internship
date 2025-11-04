@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python for Data Science</title>
+<link rel="stylesheet" href="{% static 'css/course.css' %}">
+</head>
+<body>
+
+<header>
+  <h1>Python For Data Science</h1>
+  <p>machine learning techniques with the purpose of drawing conclusions about that information .</p>
+  </p>
+</header>
+
+<section class="course-info">
+  <h2>Course Information</h2>
+  <ul>
+    <li><strong>Price:</strong> ₹3999</li>
+    <li><strong>Duration:</strong> 12 weeks</li>
+    <li><strong>Level:</strong> Beginner → Advanced</li>
+  </ul>
+  <button id="registerBtn">
+    <a href="{% url 'register' %}"><strong>sign up here</strong></a>
+    Register Now</button>
+</section>
+
+<section id="courseContent" class="hidden">
+  <h2>Course Content</h2>
+  <ul>
+    <li>Module 1:Satistics</li>
+    <li>Module 2:programming(python and R)</li>
+    <li>Module 3:Data visualization </li>
+    <li>Module 4:Machine learning </li>
+    <li>Module 5:data mining </li>
+  </ul>
+
+  <h2>Course Videos</h2>
+  <ol>
+    <li><a href="#" target="_blank">satistics </a></li>
+    <li><a href="#" target="_blank">python programming</a></li>
+    <li><a href="#" target="_blank">data visualization</a></li>
+  </ol>
+
+ 
+</section>
+
+<script>
+document.getElementById('registerBtn').addEventListener('click', function() {
+  document.getElementById('courseContent').classList.remove('hidden');
+  this.style.display = 'none';
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D Square - Professional C Programming Course</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .lesson-locked {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quiz-option {
+            transition: all 0.3s ease;
+        }
+        .quiz-option:hover {
+            background-color: #fdf2f8;
+        }
+        .quiz-option.selected {
+            background-color: #ec4899;
+            color: white;
+        }
+        .quiz-option.correct {
+            background-color: #10b981;
+            color: white;
+        }
+        .quiz-option.incorrect {
+            background-color: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-900 via-rose-900 to-purple-900 min-h-screen">
+
+    <!-- Welcome Page -->
+    <div id="welcomePage" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-4xl fade-in">
+            <div class="text-center mb-8">
+                <h1 class="text-5xl font-bold text-gray-800 mb-4">D Square Academy</h1>
+                <p class="text-2xl text-pink-600 mb-4">Professional C Programming Course</p>
+                <p class="text-lg text-gray-600 mb-6">Master C Programming from Zero to Hero - Industry Standard Curriculum</p>
+                
+                <div class="bg-gradient-to-r from-pink-100 to-rose-100 p-6 rounded-xl mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">🎓 What You'll Learn</h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-left">
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>C Programming Fundamentals</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>Data Structures & Algorithms</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>Memory Management</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>File Handling & I/O</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>Pointers & Dynamic Memory</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span>Industry Best Practices</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-pink-50 p-6 rounded-xl">
+                        <div class="text-3xl mb-3">📚</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">12 Modules</h3>
+                        <p class="text-sm text-gray-600">Comprehensive curriculum</p>
+                    </div>
+                    <div class="bg-rose-50 p-6 rounded-xl">
+                        <div class="text-3xl mb-3">🏆</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Certificate</h3>
+                        <p class="text-sm text-gray-600">Industry recognized</p>
+                    </div>
+                    <div class="bg-pink-100 p-6 rounded-xl">
+                        <div class="text-3xl mb-3">💻</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Hands-on</h3>
+                        <p class="text-sm text-gray-600">Practical projects</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button id="startCourseBtn" class="bg-gradient-to-r from-pink-600 to-rose-600 text-white py-4 px-12 rounded-lg font-semibold text-xl hover:from-pink-700 hover:to-rose-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                    Start Learning Now
+                </button>
+                <p class="text-sm text-gray-500 mt-4">Free • Self-paced • Certificate included</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Dashboard -->
+    <div id="courseDashboard" class="min-h-screen p-4 hidden">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-800">C Programming Mastery</h1>
+                        <p class="text-pink-600">Professional Course by D Square Academy</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="bg-pink-100 px-4 py-2 rounded-lg">
+                            <p class="text-sm text-pink-800 font-semibold">Progress: <span id="overallProgress">0</span>%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Overall Progress Bar -->
+                <div class="mb-4">
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="overallProgressBar" class="bg-gradient-to-r from-pink-500 to-rose-500 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <div class="flex space-x-4 border-b">
+                    <button onclick="showTab('modules')" id="modulesTab" class="px-4 py-2 font-semibold text-pink-600 border-b-2 border-pink-600">Modules</button>
+                    <button onclick="showTab('assignments')" id="assignmentsTab" class="px-4 py-2 font-semibold text-gray-600 hover:text-pink-600">Assignments</button>
+                    <button onclick="showTab('resources')" id="resourcesTab" class="px-4 py-2 font-semibold text-gray-600 hover:text-pink-600">Resources</button>
+                    <button onclick="showTab('certificate')" id="certificateTab" class="px-4 py-2 font-semibold text-gray-600 hover:text-pink-600">Certificate</button>
+                </div>
+            </div>
+
+            <!-- Modules Tab -->
+            <div id="modulesContent" class="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Module cards will be generated here -->
+            </div>
+
+            <!-- Assignments Tab -->
+            <div id="assignmentsContent" class="hidden">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Programming Assignments</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">Assignment 1: Hello World Program</h3>
+                            <p class="text-gray-600 mb-4">Create your first C program that prints "Hello, World!" to the console.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-green-600">✓ Completed</span>
+                                <button class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">View</button>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-4 opacity-50">
+                            <h3 class="font-semibold text-lg mb-2">Assignment 2: Calculator Program</h3>
+                            <p class="text-gray-600 mb-4">Build a simple calculator using functions and operators.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">🔒 Locked</span>
+                                <button disabled class="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed">Locked</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources Tab -->
+            <div id="resourcesContent" class="hidden">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Course Resources</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">📖 Course Syllabus</h3>
+                            <p class="text-gray-600 mb-4">Complete course outline and learning objectives</p>
+                            <button class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Download PDF</button>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">💻 Code Examples</h3>
+                            <p class="text-gray-600 mb-4">All code examples from the course</p>
+                            <button class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Download ZIP</button>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">📚 Reference Guide</h3>
+                            <p class="text-gray-600 mb-4">C programming reference and cheat sheet</p>
+                            <button class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Download PDF</button>
+                        </div>
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold text-lg mb-2">🎥 Video Transcripts</h3>
+                            <p class="text-gray-600 mb-4">Text versions of all video content</p>
+                            <button class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Download PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certificate Tab -->
+            <div id="certificateContent" class="hidden">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Course Certificate</h2>
+                    <div id="certificateEarned" class="hidden">
+                        <div class="border-4 border-pink-600 rounded-lg p-8 mb-6 bg-gradient-to-br from-pink-50 to-rose-50">
+                            <h3 class="text-3xl font-bold text-gray-800 mb-4">🏆 Certificate of Completion</h3>
+                            <p class="text-xl text-gray-700 mb-2">This certifies that</p>
+                            <p class="text-2xl font-bold text-pink-600 mb-2">Student Name</p>
+                            <p class="text-lg text-gray-700 mb-4">has successfully completed the</p>
+                            <p class="text-xl font-bold text-gray-800 mb-4">C Programming Mastery Course</p>
+                            <p class="text-gray-600">D Square Academy</p>
+                        </div>
+                        <button class="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700">Download Certificate</button>
+                    </div>
+                    <div id="certificateNotEarned">
+                        <div class="text-gray-500 mb-6">
+                            <div class="text-6xl mb-4">🏆</div>
+                            <h3 class="text-xl font-semibold mb-2">Certificate Not Yet Earned</h3>
+                            <p>Complete all modules and assignments to earn your certificate</p>
+                        </div>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600">Progress: <span id="certificateProgress">0</span>% Complete</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson Content -->
+    <div id="lessonContent" class="min-h-screen p-4 hidden">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <button onclick="backToDashboard()" class="text-pink-600 hover:text-pink-700 flex items-center">
+                        ← Back to Course
+                    </button>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-600">Module <span id="currentModuleNum">1</span> of 12</p>
+                    </div>
+                </div>
+                
+                <h1 id="lessonTitle" class="text-3xl font-bold text-gray-800 mb-6"></h1>
+                
+                <!-- Video Section -->
+                <div class="bg-gray-900 rounded-lg p-8 mb-6 text-center">
+                    <div class="text-white mb-4">
+                        <div class="text-6xl mb-4">🎥</div>
+                        <h3 class="text-xl font-semibold mb-2">Video Lesson</h3>
+                        <p class="text-gray-300">Duration: 15-20 minutes</p>
+                    </div>
+                    <button class="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700">
+                        ▶ Play Video
+                    </button>
+                </div>
+                
+                <!-- Lesson Content -->
+                <div id="lessonBody" class="prose max-w-none mb-8">
+                    <!-- Content will be loaded here -->
+                </div>
+                
+                <!-- Quiz Section -->
+                <div id="quizSection" class="bg-gray-50 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">📝 Knowledge Check</h3>
+                    <div id="quizContent">
+                        <!-- Quiz will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <div class="flex justify-between items-center">
+                    <button id="prevLessonBtn" onclick="prevLesson()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                        ← Previous
+                    </button>
+                    <button id="completeLessonBtn" onclick="completeLesson()" class="bg-gradient-to-r from-pink-600 to-rose-600 text-white px-8 py-3 rounded-lg hover:from-pink-700 hover:to-rose-700 transition-all">
+                        Complete Module
+                    </button>
+                    <button id="nextLessonBtn" onclick="nextLesson()" class="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors">
+                        Next →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentLesson = 0;
+        let completedLessons = new Set();
+        let currentTab = 'modules';
+        let quizAnswers = {};
+        let quizCompleted = false;
+
+        // Course Data
+        const modules = [
+            {
+                title: "Introduction to C Programming",
+                description: "Learn the fundamentals of C programming language and set up your development environment",
+                duration: "45 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Welcome to C Programming!</h3>
+                    <p class="mb-4">C is a powerful, general-purpose programming language developed by Dennis Ritchie at Bell Labs in 1972. It has influenced many modern programming languages and remains one of the most important languages in computer science.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Understand the history and importance of C programming</li>
+                        <li>Set up a C development environment</li>
+                        <li>Write and compile your first C program</li>
+                        <li>Understand the basic structure of a C program</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Why Learn C?</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li><strong>Foundation Language:</strong> Understanding C helps you learn other languages</li>
+                        <li><strong>System Programming:</strong> Used in operating systems, embedded systems</li>
+                        <li><strong>Performance:</strong> Close to hardware, efficient execution</li>
+                        <li><strong>Industry Standard:</strong> Widely used in professional software development</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Your First C Program</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello, World!\\n");
+    return 0;
+}</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Program Breakdown:</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li><code>#include &lt;stdio.h&gt;</code> - Includes standard input/output library</li>
+                        <li><code>int main()</code> - Main function where program execution begins</li>
+                        <li><code>printf()</code> - Function to print text to screen</li>
+                        <li><code>return 0;</code> - Indicates successful program termination</li>
+                    </ul>
+                `,
+                quiz: {
+                    question: "What does the #include <stdio.h> directive do in a C program?",
+                    options: [
+                        "It defines the main function",
+                        "It includes the standard input/output library",
+                        "It compiles the program",
+                        "It creates variables"
+                    ],
+                    correct: 1
+                }
+            },
+            {
+                title: "Variables and Data Types",
+                description: "Master different data types, variable declaration, and memory concepts",
+                duration: "50 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Variables and Data Types</h3>
+                    <p class="mb-4">Variables are containers for storing data values. In C, every variable must be declared with a specific data type before it can be used.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Understand different data types in C</li>
+                        <li>Learn variable declaration and initialization</li>
+                        <li>Understand memory allocation for different types</li>
+                        <li>Practice type conversion and casting</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Basic Data Types</h4>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <ul class="list-disc pl-6">
+                            <li><strong>int</strong> - Integer numbers (4 bytes): -2,147,483,648 to 2,147,483,647</li>
+                            <li><strong>float</strong> - Single-precision floating-point (4 bytes): ~7 decimal digits</li>
+                            <li><strong>double</strong> - Double-precision floating-point (8 bytes): ~15 decimal digits</li>
+                            <li><strong>char</strong> - Single character (1 byte): 'A', 'x', '5'</li>
+                        </ul>
+                    </div>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Variable Declaration Examples</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Integer variables
+int age = 25;
+int count;  // Uninitialized
+
+// Floating-point variables
+float height = 5.9f;
+double pi = 3.14159265359;
+
+// Character variables
+char grade = 'A';
+char initial = 'J';
+
+// Multiple declarations
+int x = 10, y = 20, z = 30;</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Memory Size and Ranges</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-300">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="border border-gray-300 px-4 py-2">Data Type</th>
+                                    <th class="border border-gray-300 px-4 py-2">Size</th>
+                                    <th class="border border-gray-300 px-4 py-2">Range</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2">char</td>
+                                    <td class="border border-gray-300 px-4 py-2">1 byte</td>
+                                    <td class="border border-gray-300 px-4 py-2">-128 to 127</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2">int</td>
+                                    <td class="border border-gray-300 px-4 py-2">4 bytes</td>
+                                    <td class="border border-gray-300 px-4 py-2">-2,147,483,648 to 2,147,483,647</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2">float</td>
+                                    <td class="border border-gray-300 px-4 py-2">4 bytes</td>
+                                    <td class="border border-gray-300 px-4 py-2">±3.4E±38 (7 digits)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `,
+                quiz: {
+                    question: "Which data type would be most appropriate for storing a person's age?",
+                    options: [
+                        "char",
+                        "float", 
+                        "int",
+                        "double"
+                    ],
+                    correct: 2
+                }
+            },
+            {
+                title: "Input and Output Operations",
+                description: "Learn to interact with users through input and output functions",
+                duration: "40 min",
+                content: `
+                    <h3 class="text-xl font-semibold mb-4">Input and Output in C</h3>
+                    <p class="mb-4">Input and output operations are essential for creating interactive programs. C provides several functions for reading user input and displaying output.</p>
+                    
+                    <h4 class="text-lg font-semibold mb-2">🎯 Learning Objectives</h4>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Master printf() for formatted output</li>
+                        <li>Learn scanf() for user input</li>
+                        <li>Understand format specifiers</li>
+                        <li>Handle different data types in I/O operations</li>
+                    </ul>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Output with printf()</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>// Basic output
+printf("Hello, World!\\n");
+
+// Formatted output with variables
+int age = 25;
+float height = 5.9;
+printf("I am %d years old and %.1f feet tall\\n", age, height);
+
+// Different format specifiers
+printf("Integer: %d\\n", 42);
+printf("Float: %.2f\\n", 3.14159);
+printf("Character: %c\\n", 'A');
+printf("String: %s\\n", "Hello");</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Input with scanf()</h4>
+                    <pre class="bg-gray-100 p-4 rounded-lg mb-4"><code>int age;
+float salary;
+char grade;
+
+printf("Enter your age: ");
+scanf("%d", &age);
+
+printf("Enter your salary: ");
+scanf("%f", &salary);
+
+printf("Enter your grade: ");
+scanf(" %c", &grade);  // Note the space before %c
+
+printf("You are %d years old, earn $%.2f, grade: %c\\n", 
+       age, salary, grade);</code></pre>
+                    
+                    <h4 class="text-lg font-semibold mb-2">Format Specifiers Reference</h4>
+                    <div class="bg-yellow-50 p-4 rounded-lg mb-4">
+                        <ul class="list-disc pl-6">
+                            <li><code>%d</code> - Integer (decimal)</li>
+                            <li><code>%f</code> - Float (default 6 decimal places)</li>
+                            <li><code>%.2f</code> - Float with 2 decimal places</li>
+                            <li><code>%c</code> - Single character</li>
+                            <li><code>%s</code> - String</li>
+                            <li><code>%x</code> - Hexadecimal</li>
+                            <li><code>%o</code> - Octal</li>
+                        </ul>
+                    </div>
+                `,
+                quiz: {
+                    question: "What is the correct way to read an integer from user input?",
+                    options: [
+                        "scanf(\"%d\", age);",
+                        "scanf(\"%d\", &age);",
+                        "printf(\"%d\", &age);",
+                        "scanf(age);"
+                    ],
+                    correct: 1
+                }
+            }
+        ];
+
+        // Event Listeners
+        document.getElementById('startCourseBtn').addEventListener('click', showCourseDashboard);
+
+        function showCourseDashboard() {
+            document.getElementById('welcomePage').classList.add('hidden');
+            document.getElementById('courseDashboard').classList.remove('hidden');
+            generateModuleCards();
+            updateProgress();
+        }
+
+        function generateModuleCards() {
+            const container = document.getElementById('modulesContent');
+            container.innerHTML = '';
+            
+            modules.forEach((module, index) => {
+                const isLocked = index > 0 && !completedLessons.has(index - 1);
+                const isCompleted = completedLessons.has(index);
+                
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-200 ${isLocked ? 'lesson-locked' : 'cursor-pointer'}`;
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full ${isCompleted ? 'bg-green-500' : isLocked ? 'bg-gray-400' : 'bg-pink-500'} flex items-center justify-center text-white font-bold text-lg mr-4">
+                                ${isCompleted ? '✓' : isLocked ? '🔒' : index + 1}
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Module ${index + 1}</h3>
+                                <p class="text-sm text-gray-600">${module.duration}</p>
+                            </div>
+                        </div>
+                        <div class="text-2xl">
+                            ${isCompleted ? '🏆' : isLocked ? '🔒' : '📚'}
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-medium text-gray-800 mb-2">${module.title}</h4>
+                    <p class="text-gray-600 mb-4">${module.description}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm px-3 py-1 rounded-full ${isCompleted ? 'bg-green-100 text-green-800' : isLocked ? 'bg-gray-100 text-gray-600' : 'bg-pink-100 text-pink-800'}">
+                            ${isCompleted ? 'Completed' : isLocked ? 'Locked' : 'Available'}
+                        </span>
+                        ${!isLocked ? `<button onclick="openLesson(${index})" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition-colors">
+                            ${isCompleted ? 'Review' : 'Start'}
+                        </button>` : ''}
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        function openLesson(index) {
+            currentLesson = index;
+            const module = modules[index];
+            
+            document.getElementById('courseDashboard').classList.add('hidden');
+            document.getElementById('lessonContent').classList.remove('hidden');
+            
+            document.getElementById('currentModuleNum').textContent = index + 1;
+            document.getElementById('lessonTitle').textContent = module.title;
+            document.getElementById('lessonBody').innerHTML = module.content;
+            
+            // Load quiz
+            loadQuiz(module.quiz);
+            
+            // Update navigation buttons
+            document.getElementById('prevLessonBtn').style.display = index > 0 ? 'block' : 'none';
+            document.getElementById('nextLessonBtn').style.display = index < modules.length - 1 && completedLessons.has(index) ? 'block' : 'none';
+            document.getElementById('completeLessonBtn').style.display = completedLessons.has(index) ? 'none' : 'block';
+        }
+
+        function loadQuiz(quiz) {
+            const quizContent = document.getElementById('quizContent');
+            quizContent.innerHTML = `
+                <p class="font-semibold mb-4">${quiz.question}</p>
+                <div class="space-y-2">
+                    ${quiz.options.map((option, index) => `
+                        <div class="quiz-option border rounded-lg p-3 cursor-pointer" onclick="selectQuizOption(${index})">
+                            <span class="font-medium">${String.fromCharCode(65 + index)}.</span> ${option}
+                        </div>
+                    `).join('')}
+                </div>
+                <button id="submitQuizBtn" onclick="submitQuiz()" class="mt-4 bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 disabled:bg-gray-400" disabled>
+                    Submit Answer
+                </button>
+                <div id="quizResult" class="mt-4 hidden"></div>
+            `;
+            quizAnswers[currentLesson] = null;
+            quizCompleted = false;
+        }
+
+        function selectQuizOption(optionIndex) {
+            // Remove previous selections
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Select current option
+            document.querySelectorAll('.quiz-option')[optionIndex].classList.add('selected');
+            quizAnswers[currentLesson] = optionIndex;
+            
+            // Enable submit button
+            document.getElementById('submitQuizBtn').disabled = false;
+        }
+
+        function submitQuiz() {
+            const quiz = modules[currentLesson].quiz;
+            const selectedAnswer = quizAnswers[currentLesson];
+            const isCorrect = selectedAnswer === quiz.correct;
+            
+            // Show results
+            document.querySelectorAll('.quiz-option').forEach((option, index) => {
+                if (index === quiz.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+            
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.className = `mt-4 p-4 rounded-lg ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+            resultDiv.innerHTML = isCorrect ? 
+                '✅ Correct! Well done.' : 
+                `❌ Incorrect. The correct answer is: ${quiz.options[quiz.correct]}`;
+            resultDiv.classList.remove('hidden');
+            
+            document.getElementById('submitQuizBtn').style.display = 'none';
+            quizCompleted = true;
+        }
+
+        function completeLesson() {
+            if (!quizCompleted) {
+                alert('Please complete the quiz before finishing the module.');
+                return;
+            }
+            
+            completedLessons.add(currentLesson);
+            
+            // Show completion message
+            const completionMsg = document.createElement('div');
+            completionMsg.className = 'bg-pink-100 border border-pink-400 text-pink-700 px-4 py-3 rounded mb-4';
+            completionMsg.innerHTML = '🎉 Congratulations! You have completed this module!';
+            document.getElementById('lessonBody').insertBefore(completionMsg, document.getElementById('lessonBody').firstChild);
+            
+            // Update buttons
+            document.getElementById('completeLessonBtn').style.display = 'none';
+            if (currentLesson < modules.length - 1) {
+                document.getElementById('nextLessonBtn').style.display = 'block';
+            }
+            
+            updateProgress();
+        }
+
+        function nextLesson() {
+            if (currentLesson < modules.length - 1) {
+                openLesson(currentLesson + 1);
+            }
+        }
+
+        function prevLesson() {
+            if (currentLesson > 0) {
+                openLesson(currentLesson - 1);
+            }
+        }
+
+        function backToDashboard() {
+            document.getElementById('lessonContent').classList.add('hidden');
+            document.getElementById('courseDashboard').classList.remove('hidden');
+            generateModuleCards();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = Math.round((completedLessons.size / modules.length) * 100);
+            document.getElementById('overallProgress').textContent = progress;
+            document.getElementById('overallProgressBar').style.width = progress + '%';
+            
+            // Update certificate progress
+            const certificateProgress = document.getElementById('certificateProgress');
+            if (certificateProgress) {
+                certificateProgress.textContent = progress;
+            }
+            
+            // Show certificate if 100% complete
+            if (progress === 100) {
+                document.getElementById('certificateNotEarned').classList.add('hidden');
+                document.getElementById('certificateEarned').classList.remove('hidden');
+            }
+        }
+
+        function showTab(tabName) {
+            // Hide all content
+            document.getElementById('modulesContent').classList.add('hidden');
+            document.getElementById('assignmentsContent').classList.add('hidden');
+            document.getElementById('resourcesContent').classList.add('hidden');
+            document.getElementById('certificateContent').classList.add('hidden');
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('[id$="Tab"]').forEach(tab => {
+                tab.className = 'px-4 py-2 font-semibold text-gray-600 hover:text-pink-600';
+            });
+            
+            // Show selected content and activate tab
+            document.getElementById(tabName + 'Content').classList.remove('hidden');
+            document.getElementById(tabName + 'Tab').className = 'px-4 py-2 font-semibold text-pink-600 border-b-2 border-pink-600';
+            
+            currentTab = tabName;
+        }
+
+        // Initialize
+        window.openLesson = openLesson;
+        window.showTab = showTab;
+        window.selectQuizOption = selectQuizOption;
+        window.submitQuiz = submitQuiz;
+        window.completeLesson = completeLesson;
+        window.nextLesson = nextLesson;
+        window.prevLesson = prevLesson;
+        window.backToDashboard = backToDashboard;
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9784eb2d269248da',t:'MTc1NjczMTI5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
