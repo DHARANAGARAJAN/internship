@@ -27,8 +27,19 @@ SECRET_KEY = 'django-insecure-2c^-i-ultxicqrcz$howka=gr524ilxkr89_yhdxhel6^asvq=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://intership-uwg9.onrender.com',
-                 'localhost','127.0.0.1']
+import os
+
+if os.environ.get('RENDER') == 'true':
+    # On Render deployment
+    ALLOWED_HOSTS = ['https://intership-uwg9.onrender.com']
+else:
+    # Local development
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+
+
+#ALLOWED_HOSTS = ['https://intership-uwg9.onrender.com',]
+                # 'localhost','127.0.0.1'
 
   # Replace 'yourapp'
 
